@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#define tam 50
+//#define tam 1000
 
 
 void inverter(char *copia, int c) {
@@ -37,11 +37,18 @@ bool palindromo(char *frase) {
 
 int main(void) {
 
-    char texto[tam];
-    scanf(" %[^\n\r]", texto);
+    char texto[1000];
+    do{
+        scanf(" %[^\n]", texto);
+        if(strcmp(texto, "FIM") != 0) {
+            if(palindromo(texto)) printf("SIM\n");
+            else printf("NAO\n");
+        }
+        
 
-    if(palindromo(texto)) printf("SIM");
-    else printf("NAO");
+    }while(strcmp(texto, "FIM") != 0);
+    
+
 
     return 0;
 }
