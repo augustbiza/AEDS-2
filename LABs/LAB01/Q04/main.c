@@ -18,7 +18,6 @@ int tamTexto(char *texto) {
     int n = strlen(texto);
     int qtMaiuscula = letraMaiuscula(texto, n-1);
 
-    printf("%d\n", qtMaiuscula);
     return qtMaiuscula;
 }
 
@@ -26,15 +25,17 @@ int tamTexto(char *texto) {
 int main(void) {
 
     char texto[1000];
-    scanf(" %[^\n]", texto);
 
     tamTexto(texto);
-/*
+
     do{
         scanf(" %[^\n]", texto);
+        if(strcmp(texto, "FIM") != 0) {
+            printf("%d\n", tamTexto(texto));
+        }
 
     }while(strcmp(texto, "FIM") != 0);
-*/
+
 
     return 0;
 }
