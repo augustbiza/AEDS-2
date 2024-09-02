@@ -21,7 +21,7 @@ class Main {
         else {
             int n = vetPos[0];
 
-            for(int i = 0; i < texto.length(); i++) {
+            for(int i = 0; i < texto.length() && situ; i++) {
                 charAtual = texto.charAt(i);
 
                 if(charAtual == 40) abre += 1;
