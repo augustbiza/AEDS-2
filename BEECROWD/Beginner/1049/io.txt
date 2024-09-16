@@ -1,0 +1,35 @@
+ANIMAL
+
+
+
+
+                            carnivoro - aguia
+                ave
+                            onivoro - pomba
+vertebrado
+                            onivoro - homem
+                mamifero
+                            herbivoro - vaca
+
+
+                            hematofago - pulga
+                inseto
+                            herbivoro - lagarta
+invertebrado
+
+                            hematofago - sanguessuga
+                anelideo
+                            onivoro - minhoca
+
+
+    INPUT                OUTPUT
+    vertebrado
+    ave                  aguia
+    carnivoro
+
+
+
+    invertebrado
+    anelideo            minhoca
+    onivoro
+
