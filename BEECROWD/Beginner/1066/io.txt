@@ -1,0 +1,20 @@
+EVEN, ODD, POSITIVE AND NEGATIVE
+
+Make a program that reads five integer values. Count how many   of these values are even, odd, positive and negative. Print these information like following example.
+
+Input
+The input will be 5 integer values.
+
+Output
+Print a message like the following example with all letters in lowercase, indicating how many of these values ​​are even, odd, positive and negative.
+
+
+    -5      3 valor(es) par(es)
+    0       2 valor(es) impar(es)
+    -3      1 valor(es) positivo(s)
+    -4      3 valor(es) negativo(s)
+    12
+
+
+
+
