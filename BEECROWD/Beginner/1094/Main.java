@@ -7,14 +7,12 @@ class Main {
         Scanner scan = new Scanner(System.in);
 
         int n = scan.nextInt(), rabbit = 0, rat = 0, frog = 0, total = 0;
-        //char type;
         String type;
 
         for(int i = 1; i <= n; i++) {
             int value = scan.nextInt();
             total += value;
             type = scan.next();
-            //type = scan.next().charAt(0);
                 if(type.equals("C")) rabbit += value;
                 else if(type.equals("R")) rat += value;
                 else frog += value;
