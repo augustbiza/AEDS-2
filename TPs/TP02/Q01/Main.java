@@ -1,9 +1,8 @@
-//TP02Q01 - Classe Pokemon em Java
-
 import java.util.*;     //. ArrayList .List .Scanner
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 class Pokemon {
 
@@ -15,16 +14,15 @@ class Pokemon {
     private List<String> abilities;
     private double weight_kg;
     private double height_m;
-    private double captureRate;
+    private int captureRate;
     private boolean legendary;
     private LocalDate captureDate;
 
-    //construtor vazio
+    // Construtor vazio
     public Pokemon() {}
 
-    //construtor cheio
-    public Pokemon(int id, int generation, String name, String description, List<String> types, List<String> abilities, double weight_kg, double height_m, double captureRate, boolean legendary, LocalDate captureDate)
-    {
+    // Construtor cheio
+    public Pokemon(int id, int generation, String name, String description, List<String> types, List<String> abilities, double weight_kg, double height_m, int captureRate, boolean legendary, LocalDate captureDate) {
         setId(id);
         setGeneration(generation);
         setName(name);
@@ -38,7 +36,9 @@ class Pokemon {
         setCaptureDate(captureDate);
     }
 
-    //id
+    // Métodos getters e setters
+
+    // id
     public void setId(int id) {
         this.id = id;
     }
@@ -46,7 +46,7 @@ class Pokemon {
         return id;
     }
 
-    //generation
+    // generation
     public void setGeneration(int generation) {
         this.generation = generation;
     }
@@ -54,7 +54,7 @@ class Pokemon {
         return generation;
     }
 
-    //name
+    // name
     public void setName(String name) {
         this.name = name;
     }
@@ -62,7 +62,7 @@ class Pokemon {
         return name;
     }
 
-    //description
+    // description
     public void setDescription(String description) {
         this.description = description;
     }
@@ -70,7 +70,7 @@ class Pokemon {
         return description;
     }
 
-    //types
+    // types
     public void setTypes(List<String> types) {
         this.types = types;
     }
@@ -78,7 +78,7 @@ class Pokemon {
         return types;
     }
 
-    //abilities
+    // abilities
     public void setAbilities(List<String> abilities) {
         this.abilities = abilities;
     }
@@ -86,7 +86,7 @@ class Pokemon {
         return abilities;
     }
 
-    //weight
+    // weight
     public void setWeight(double weight_kg) {
         this.weight_kg = weight_kg;    
     }
@@ -94,7 +94,7 @@ class Pokemon {
         return weight_kg;
     }
 
-    //height
+    // height
     public void setHeight(double height_m) {
         this.height_m = height_m;
     }
@@ -102,15 +102,15 @@ class Pokemon {
         return height_m;
     }
 
-    //captureRate
-    public void setCaptureRate(double captureRate) {
+    // captureRate
+    public void setCaptureRate(int captureRate) {
         this.captureRate = captureRate;
     }
-    public double getCaptureRate() {
+    public int getCaptureRate() {
         return captureRate;
     }
 
-    //Legendary
+    // legendary
     public void setIsLegendary(boolean legendary) {
         this.legendary = legendary;
     }
@@ -118,7 +118,7 @@ class Pokemon {
         return legendary;
     }
 
-    //Date
+    // captureDate
     public void setCaptureDate(LocalDate captureDate) {
         this.captureDate = captureDate;
     }
@@ -126,87 +126,120 @@ class Pokemon {
         return captureDate;
     }
 
-    //
+    // Construtor que processa a linha CSV
     public Pokemon(String texto) {
-        String []item = texto.split(",");
+        // Usando regex para lidar com as vírgulas entre aspas ou colchetes
+        String[] item = texto.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
+        // Processando os dados
         setId(Integer.parseInt(item[0]));
-
         setGeneration(Integer.parseInt(item[1]));
-
         setName(item[2]);
-
         setDescription(item[3]);
 
+        // Tipos
         List<String> types = new ArrayList<>();
-        types.add(item[4]);
-        if (!item[5].isEmpty())
+        types.add(item[4]);  // Primeiro tipo
+        if (!item[5].isEmpty())  // Verifica se o segundo tipo não é vazio
             types.add(item[5]);
         setTypes(types);
 
-        int c = 6;
-        boolean IsDouble = false;
+        // Habilidades
         List<String> abilities = new ArrayList<>();
-
-        while (!IsDouble) {
-            try {
-                Double.parseDouble(item[c]); 
-                IsDouble = true;
-            } catch (NumberFormatException e) {
-                if(!item[c].isEmpty()){
-                    String abilitie = item[c].replaceAll("[\\[\\]'\"']", "").trim();
-                    abilities.add(abilitie);
-                    c++;
-                }else{
-                    IsDouble = true;
-                }
-            }
+        String abilitiesRaw = item[6].replace("[", "").replace("]", "").replace("'", "").replace("\"", "").trim();
+        if (!abilitiesRaw.isEmpty()) {
+            String[] abilitiesArray = abilitiesRaw.split(", ");
+            abilities.addAll(Arrays.asList(abilitiesArray));
         }
         setAbilities(abilities);
 
+        // Peso
+        if (!item[7].isEmpty()) {
+            setWeight(Double.parseDouble(item[7]));
+        }
+
+        // Altura
+        if (!item[8].isEmpty()) {
+            setHeight(Double.parseDouble(item[8]));
+        }
+
+        // Capture Rate
+        if (!item[9].isEmpty()) {
+            setCaptureRate(Integer.parseInt(item[9]));
+        }
+
+        // Legendary
+        setIsLegendary(item[10].equals("1"));
+
+        // Data de Captura
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        try {
+            setCaptureDate(LocalDate.parse(item[11], formatter));
+        } catch (DateTimeParseException e) {
+            System.out.println("Erro ao ler a data de captura.");
+        }
     }
 
-    //clone
+    // Método para imprimir os dados formatados
+    public void imprimir() {
+        System.out.printf("[#" + id + " -> " + name + ": " + description + " - [");
+        int counter = 1;
+        for (String type : types) {
+            if (counter == 1) {
+                System.out.printf("'" + type + "'");
+                counter++;
+            } else {
+                System.out.printf(", '" + type + "'");
+            }
+        }
+        System.out.printf("] - [");
+        counter = 1;
+        for (String abilitie : abilities) {
+            if (counter == 1) {
+                System.out.printf("'" + abilitie + "'");
+                counter++;
+            } else {
+                System.out.printf(", '" + abilitie + "'");
+            }
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        System.out.printf("] - " + weight_kg + "kg - " + height_m + "m - " + captureRate + "%% - " + legendary + " - " + generation + " gen] - " + captureDate.format(formatter));
+        System.out.println();
+    }
+
+    // Método clone
     public Pokemon clone() {
-
-        Pokemon clone = new Pokemon(getId(), getGeneration(), getName(), getDescription(), getTypes(), getAbilities(), getWeight(), getHeight(), getCaptureRate(), getIsLegendary(), getCaptureDate());
-
-        return clone;
+        return new Pokemon(getId(), getGeneration(), getName(), getDescription(), getTypes(), getAbilities(), getWeight(), getHeight(), getCaptureRate(), getIsLegendary(), getCaptureDate());
     }
-
-
 }
 
 public class Main {
 
-    public static void main(String []args) {
-        //csv
-        String csvString = "/tmp/pokemon.csv";
+    public static void main(String[] args) {
+        // Caminho do arquivo CSV
+        String csvString = "pokemon.csv";
+        ArrayList<Pokemon> pokemons = new ArrayList<>();
 
-        ArrayList<Pokemon> pokemons = new ArrayList<Pokemon>();
-
+        // Lendo o arquivo CSV
         try {
             Scanner scan = new Scanner(new File(csvString));
-            scan.nextLine();
+            scan.nextLine(); // Ignorando o cabeçalho
             while (scan.hasNextLine()) {
-            pokemons.add(new Pokemon(scan.nextLine()));
+                pokemons.add(new Pokemon(scan.nextLine()));
             }
-
             scan.close();
+        } catch (Exception e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
 
-        } catch (Exception e) { System.out.println("error");}
-
+        // Entrada do usuário
         Scanner scan = new Scanner(System.in);
-
         String input = scan.nextLine();
-        while(!input.equals("FIM")) {
+        while (!input.equals("FIM")) {
             int number = Integer.parseInt(input);
             pokemons.get(number - 1).imprimir();
             input = scan.nextLine();
         }
-
         scan.close();
     }
-
 }
-
