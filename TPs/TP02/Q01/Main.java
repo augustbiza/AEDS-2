@@ -216,9 +216,11 @@ class Pokemon {
 public class Main {
 
     public static void main(String[] args) {
+
+        long inicioTemp = System.nanoTime(); // Correção: adicionado ponto e vírgula
         // Caminho do arquivo CSV
         String csvString = "pokemon.csv";
-        ArrayList<Pokemon> pokedex = new ArrayList<>();
+        ArrayList<Pokemon> pokedex = new ArrayList<Pokemon>();
 
         // Lendo o arquivo CSV
         try {
@@ -229,17 +231,36 @@ public class Main {
             }
             scan.close();
         } catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            System.out.println("Erro ao ler o arquivo");
         }
 
         // Entrada do usuário
         Scanner scan = new Scanner(System.in);
         String input = scan.nextLine();
+        int comp = 0; // Contador de comparações adicionado
         while (!input.equals("FIM")) {
-            int number = Integer.parseInt(input);
-            pokedex.get(number - 1).imprimir();
+            int num = Integer.parseInt(input);
+            if (num > 0 && num <= pokedex.size()) { // Verifica se o índice está dentro dos limites
+                pokedex.get(num - 1).imprimir();
+                comp++;
+            } else {
+                System.out.println("Número fora dos limites.");
+            }
             input = scan.nextLine();
         }
+
+        long finalTemp = System.nanoTime();
+
+        double totalTemp = (finalTemp - inicioTemp);
+
+        String conteudo = "853033" + "\t" + totalTemp + "\t" + comp;
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("853033_sequencial.txt"))) {
+            writer.write(conteudo);
+        } catch (IOException e) {
+            System.err.println("Erro ao escrever no arquivo:");
+        }
+
         scan.close();
     }
 }
