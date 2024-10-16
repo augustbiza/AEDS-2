@@ -218,14 +218,14 @@ public class Main {
     public static void main(String[] args) {
         // Caminho do arquivo CSV
         String csvString = "pokemon.csv";
-        ArrayList<Pokemon> pokemons = new ArrayList<>();
+        ArrayList<Pokemon> pokedex = new ArrayList<>();
 
         // Lendo o arquivo CSV
         try {
             Scanner scan = new Scanner(new File(csvString));
             scan.nextLine(); // Ignorando o cabeçalho
             while (scan.hasNextLine()) {
-                pokemons.add(new Pokemon(scan.nextLine()));
+                pokedex.add(new Pokemon(scan.nextLine()));
             }
             scan.close();
         } catch (Exception e) {
@@ -237,7 +237,7 @@ public class Main {
         String input = scan.nextLine();
         while (!input.equals("FIM")) {
             int number = Integer.parseInt(input);
-            pokemons.get(number - 1).imprimir();
+            pokedex.get(number - 1).imprimir();
             input = scan.nextLine();
         }
         scan.close();
