@@ -217,7 +217,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        long inicioTemp = System.nanoTime(); // Correção: adicionado ponto e vírgula
+        long inicioTemp = System.nanoTime();
         // Caminho do arquivo CSV
         String csvString = "pokemon.csv";
         ArrayList<Pokemon> pokedex = new ArrayList<Pokemon>();
