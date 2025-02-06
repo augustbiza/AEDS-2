@@ -1,32 +1,30 @@
-// Pesquisa Sequencial
+//Pesquisa Sequencial em C (iterativo)
+//buscando do primeiro para o último
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#include <string.h>
+#define TAM 5
 
-int main()
-{
-    int key = 100;
-    
-    int lenth = 5;
-    int arr[lenth];
-    
-    
-    for(int i = 0; i < lenth; i++) {
-        
-        scanf("%d", &arr[i]);
-    }
-
-    bool find = false;
-    
+bool buscaSequencial(int *arr, int chave) {
+    bool chaveEncontrada = false;
     int i = 0;
-    
-    for(int i = 0; i < lenth && !find; i++) {
 
-        if(arr[i] == key) find = true;
+    while(!chaveEncontrada && i <= TAM) {
+        if(arr[i] == chave) chaveEncontrada = true;
+
+        i++;
     }
-    
-    if(find) printf("Chave encontrada\n");
-    else printf("Chave nao encontrada\n");
+
+    return chaveEncontrada;
+}
+
+int main(void) {
+
+    int arr[TAM] = {1,2,3,4,5};
+    int chave = 6;
+
+    if(buscaSequencial(arr, chave)) printf("Chave encontrada\n");
+    else printf("Chave não encontrada\n");
 
     return 0;
 }
