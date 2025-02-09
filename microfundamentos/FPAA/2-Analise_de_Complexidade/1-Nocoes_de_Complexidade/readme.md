@@ -1,0 +1,67 @@
+## Noções de Complexidade
+### Contagem de operações
+O objetivo é saber quantas vezes uma determinada operação acontece dentro do algoritmo.
+#### Exemplos Iniciais
+```c
+for(int i = 0; i < n; i++) {
+    a += 1;
+}
+```
+A operação **soma** ocorre n vezes (0,1,...,n-1) dentro do algoritmo.
+```c
+for(int i = 1; i < n; i++) {
+    a += 1;
+}
+```
+A operação **soma** ocorre n-1 vezes (1,2,...,n-1) dentro do algoritmo.
+```c
+for(int i = 0; i <= n; i++) {
+    a += 1;
+}
+```
+A operação **soma** ocorre n+1 vezes (0,1,...,n) dentro do algoritmo.
+```c
+for(int i = 1; i <= n; i++) {
+    a += 1;
+}
+```
+A operação **soma** ocorre n vezes (1,2,...,n) dentro do algoritmo.
+#### Exemplos Condicionais
+Indique o número de operações no melhor(menos operações) e pior(mais operações) casos
+```c
+if(a + b > c + d) {
+    k += 2;
+    y++;
+}
+else {
+    x++;
+}
+```
+Melhor caso(condição é falsa): a+b, c+d, x++  =  3 operações  
+Pior caso(condição é verdadeira): a+b, c+d, k+=2, y++  =  4 operações
+```c
+if(a+b > 3 && c+d > 7) {
+    x++;
+    y++;
+    z++;
+}
+else {
+    k++;
+}
+```
+1. a+b>3(**false**), k++  =  2 operações (**melhor caso**)  
+2. a+b>3(**true**), c+d>7(***false**), k++  =  3 operações  
+3. a+b>3(**true**), c+d>7(***true**), x++, y++, z++  =  5 operações (**pior caso**)
+```c
+if(a+b > 3 || c+d > 7) {
+    x++;
+    y++;
+    z++;
+}
+else {
+    k++;
+}
+```
+1. a+b>3(**true**), x++; y++, z++  =  4 operações
+2. a+b>3(**false**), c+d>7(**true**), x++, y++, z++  =  5 operações (**pior caso**)
+3. a+b>3(**false**), c+d>7(**false**), k++  =  3 operações (**melhor caso**)

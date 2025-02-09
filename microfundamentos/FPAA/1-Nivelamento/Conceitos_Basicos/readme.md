@@ -20,4 +20,17 @@ Logaritmo de x na base 2 (log2 (x)) representa:
 I.  10^x = 100  -->  x = 2    
 II. 100/10 = x  -->  x = 2  
 log10 (100) = 2
-### 
+### Piso e Teto
+Piso: maior número inteiro menor ou igual que a base  
+Teto: menor número inteiro maior ou igual que a base  
+- 3 (piso: 3, teto: 3)
+- 1.27 (piso: 1, teto: 2)
+- -2.5 (piso: -3, teto: -2)
+## Funções
+Cúbica:             f(x) = x^3  
+Quadrática:         f(x) = x^2  
+Linear-logaritmica  f(x) = x * log(x)  
+Linear              f(x) = x  
+Logarítmica         f(x) = log(x)  
+Constante           f(x) = c  
+  
