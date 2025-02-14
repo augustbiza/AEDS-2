@@ -5,22 +5,18 @@
 
 char* lerPalavra(void) {
 
-    char* palavra = malloc(100 * sizeof(char));
+    char* palavra = malloc(sizeof(char) * 100);
     scanf(" %[^\n]", palavra);
 
     return palavra;
 }
 
 int tamanhoPalavra(char* palavra) {
-    
-    int tam = 0;
-    int i = 0;
+    int tam = 0, i = 0;
 
     while(palavra[i] != '\0') {
 
-        if(palavra[i] != '\0') tam++;
-
-        i++;
+        tam++; i++;
     }
 
     return tam;

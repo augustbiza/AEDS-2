@@ -1,4 +1,4 @@
-//Palindromo iterativo em C
+//Palindromo iterativo em C utilizando a biblioteca <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -6,25 +6,10 @@
 
 char* lerPalavra(void) {
 
-    char* palavra = malloc(100 * sizeof(char));
+    char* palavra = malloc(sizeof(char) * 100);
     scanf(" %[^\n]", palavra);
 
     return palavra;
-}
-
-int tamanhoPalavra(char* palavra) {
-    
-    int tam = 0;
-    int i = 0;
-
-    while(palavra[i] != '\0') {
-
-        if(palavra[i] != '\0') tam++;
-
-        i++;
-    }
-
-    return tam;
 }
 
 bool verificaPalindromo(char* palavra, int tam) {
@@ -52,7 +37,7 @@ int main(void) {
 
         if(strcmp(palavra, "FIM") != 0) {
 
-            int tam = tamanhoPalavra(palavra);
+            int tam = strlen(palavra);
 
             if(verificaPalindromo(palavra, tam-1)) printf("SIM\n");
             else printf("NAO\n");

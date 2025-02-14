@@ -1,7 +1,7 @@
 //ler string
 char* lerPalavra(void) {
 
-    char* palavra = malloc(100 * sizeof(char));
+    char* palavra = malloc(sizeof(char) * 100);
     scanf(" %[^\n]", palavra);
 
     return palavra;
