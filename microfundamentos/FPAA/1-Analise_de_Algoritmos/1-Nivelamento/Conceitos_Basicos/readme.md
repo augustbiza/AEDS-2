@@ -70,3 +70,5 @@ while(esq <= dir && !achou) {
     }
 }
 ```
+## Algoritmos de Ordenação
+Algoritmos de Ordenação tradicionais: Seleção, Inserção e Quicksort.
