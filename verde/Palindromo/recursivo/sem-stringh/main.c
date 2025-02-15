@@ -11,7 +11,7 @@ char* lerPalavra (void) {
     return palavra;
 }
 
-bool comparaFIM(char* palavra) {
+bool comparaFIM(char* palavra) {        //strcmp feito manualmente para a palavra FIM
 
     bool igual = false;
 
@@ -20,7 +20,7 @@ bool comparaFIM(char* palavra) {
     return igual;
 }
 
-int tamanhoPalavra(char* palavra) {
+int tamanhoPalavra(char* palavra) {     //strlen feito manualmente
     int tam = 0, i = 0;
 
     while(palavra[i] != '\0') {

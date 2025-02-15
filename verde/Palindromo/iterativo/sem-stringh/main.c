@@ -11,7 +11,7 @@ char* lerPalavra(void) {
     return palavra;
 }
 
-int tamanhoPalavra(char* palavra) {
+int tamanhoPalavra(char* palavra) {     //strlen feito manualmente
     int tam = 0, i = 0;
 
     while(palavra[i] != '\0') {
@@ -37,7 +37,7 @@ bool verificaPalindromo(char* palavra, int tam) {
     return palindromo;
 }
 
-bool comparaFIM(char* palavra) {
+bool comparaFIM(char* palavra) {        //strcmp feito manualmente para a palavra FIM
 
     bool igual = false;
 
@@ -56,13 +56,13 @@ int main(void) {
 
         if(!comparaFIM(palavra)) {
 
-            int tam = tamanhoPalavra(palavra);
+            int tam = tamanhoPalavra(palavra);  
 
             if(verificaPalindromo(palavra, tam-1)) printf("SIM\n");
             else printf("NAO\n");
         }
 
-    }while(!comparaFIM(palavra));
+    }while(!comparaFIM(palavra));       
     
     return 0;
 }
