@@ -1,5 +1,5 @@
-//Pesquisa Sequencial em C (recurssiva)
-//buscando do último para o primeiro
+//Pesquisa Sequencial em C (recursivo)
+//int
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

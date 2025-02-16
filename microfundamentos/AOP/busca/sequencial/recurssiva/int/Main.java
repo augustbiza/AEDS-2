@@ -1,5 +1,5 @@
-//Pesquisa Sequencial em Java (recurssiva)
-//buscando do último para o primeiro
+//Pesquisa Sequencial em Java (recursivo)
+//int
 import java.util.Scanner;
 
 class Main {

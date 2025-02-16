@@ -1,4 +1,5 @@
 //Busca Binária em Java (iterativa)
+//Núemros inteiros
 class Main {
 
     public static boolean buscaBinaria(int[] arr, int chave, int tam) {

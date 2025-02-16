@@ -1,5 +1,5 @@
 //Pesquisa Sequencial em C (iterativo)
-//buscando do primeiro para o último
+//int
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

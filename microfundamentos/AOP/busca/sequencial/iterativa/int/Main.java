@@ -1,5 +1,5 @@
 //Pesquisa Sequencial em Java (iterativo)
-//buscando do inicio pro final
+//int
 import java.util.Scanner;
 
 class Main {

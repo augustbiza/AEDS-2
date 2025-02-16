@@ -1,4 +1,5 @@
 //Busca Binária em C (iterativa)
+//Números inteiros
 #include <stdio.h>
 #include <stdbool.h>
 
