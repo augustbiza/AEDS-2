@@ -1,4 +1,4 @@
-//Pesquisa Sequencial em C (recursivo)
+//Pesquisa Sequencial em C (iterativo)
 //String[]
 class Main {
 
