@@ -19,7 +19,7 @@ bool buscaSequencial(int *arr, int chave, int tam) {
 int main(void) {
 
     int arr[] = {1,2,3,4,5};
-    int tam = 5;
+    int tam = sizeof(arr)/sizeof(arr[0]);
     int chave = 5;
 
     if(buscaSequencial(arr, chave, tam-1)) printf("Chave encontrada\n");

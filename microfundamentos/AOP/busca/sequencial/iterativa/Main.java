@@ -20,7 +20,7 @@ class Main {
         Scanner scan = new Scanner(System.in);
 
         int []arr = new int[]{1,2,3,4,5};
-        int tam = 5;
+        int tam = arr.length;
         int chave = -5;
 
         if(buscaSequencial(arr, chave, tam)) System.out.println("Chave encontrada");

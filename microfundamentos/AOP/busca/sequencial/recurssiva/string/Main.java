@@ -1,13 +1,12 @@
-//Pesquisa Sequencial em Java (recurssiva)
-//buscando do último para o primeiro
+
 import java.util.Scanner;
 
 class Main {
 
-    public static boolean buscaSequencial(int arr[], int chave, int tam) {
+    public static boolean buscaSequencial(String arr[], String chave, int tam) {
         boolean chaveEncontrada = false;
 
-        if(arr[tam] == chave) chaveEncontrada = true;
+        if(arr[tam].equals(chave)) chaveEncontrada = true;
         else if(tam > 0) {
 
             chaveEncontrada = buscaSequencial(arr, chave, tam-1);
@@ -18,9 +17,9 @@ class Main {
 
     public static void main(String []args) {
         
-        int []arr = new int[]{1,2,3,4,5};
-        int tam = 5;
-        int chave = 0;
+        String []arr = new String[]{"Ana", "Joao", "Maria", "Pedro"};
+        int tam = arr.length;
+        String chave = "Pedrao";
 
         if(buscaSequencial(arr, chave, tam-1)) System.out.println("Chave encontrada");
         else System.out.println("Chave não encontrada");
