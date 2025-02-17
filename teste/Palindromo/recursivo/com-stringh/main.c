@@ -6,18 +6,18 @@
 
 char* lerPalavra (void) {
     
-    char* palavra = malloc(sizeof(char) * 100);
+    char* palavra = malloc(sizeof(char) * 2000);
     scanf(" %[^\n]", palavra);
 
     return palavra;
 }
 
 int tamanhoPalavra(char* palavra) {
-    int tam = 0, i = 0;
+    int tam = 0;
 
-    while(palavra[i] != '\0') {
+    while(palavra[tam] != '\0') {
 
-        tam++; i++;
+        tam++;
     }
 
     return tam;
@@ -30,7 +30,7 @@ bool verificaPalindromo(char* palavra, int inicio, int final) {
     if(inicio == final) palindromo = true;
     else {
 
-        if(palavra[inicio] == palavra[final]) palindromo = verificaPalindromo(palavra, inicio+1, final-1);
+        if(palavra[inicio] == palavra[final-1]) palindromo = verificaPalindromo(palavra, inicio+1, final-1);
     }
 
     return palindromo;
@@ -39,7 +39,7 @@ bool verificaPalindromo(char* palavra, int inicio, int final) {
 
 int main(void) {
 
-    char* palavra;
+    char* palavra = malloc(sizeof(char) * 2000);
 
     do {
 
@@ -49,11 +49,13 @@ int main(void) {
 
             int tam = tamanhoPalavra(palavra);
 
-            if(verificaPalindromo(palavra, 0, tam-1)) printf("SIM\n");
+            if(verificaPalindromo(palavra, 0, tam)) printf("SIM\n");
             else printf("NAO\n");
         }
     
     }while(strcmp(palavra, "FIM") != 0);
+
+    free(palavra);
 
     return 0;
 }

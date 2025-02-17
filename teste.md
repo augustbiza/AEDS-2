@@ -1,22 +1,20 @@
+```c
 //Palindromo iterativo em C
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-char* lerPalavra(void) {
+void lerPalavra(char* str) {
 
-    char* palavra = malloc(sizeof(char) * 100);
-    scanf(" %[^\n]", palavra);
-
-    return palavra;
+    scanf(" %[^\n\r]", str);
 }
 
 int tamanhoPalavra(char* palavra) {     //strlen feito manualmente
-    int tam = 0, i = 0;
+    int tam = 0;
 
-    while(palavra[i] != '\0') {
+    while(palavra[tam] != '\0') {
 
-        tam++; i++;
+        tam++;
     }
 
     return tam;
@@ -27,11 +25,11 @@ bool verificaPalindromo(char* palavra, int tam) {
     bool palindromo = true;
     int i = 0;
 
-    while(tam != i && palindromo) {
+    while(i < tam/2 && palindromo) {
 
-        if(palavra[i] != palavra[tam]) palindromo = false;
+        if(palavra[i] != palavra[tam-1-i]) palindromo = false;
 
-        i++; tam--;
+        i++;
     }
 
     return palindromo;
@@ -48,21 +46,27 @@ bool comparaFIM(char* palavra) {        //strcmp feito manualmente para a palavr
 
 int main(void) {
 
-    char* palavra;
+    //char* palavra = malloc(sizeof(char) * 100);
+    char palavra[2000];
 
     do {
 
-        palavra = lerPalavra();
+        scanf(" %[^\n]", palavra);
+        //lerPalavra(palavra);
 
         if(!comparaFIM(palavra)) {
 
-            int tam = tamanhoPalavra(palavra);  
+            int tam = tamanhoPalavra(palavra);
 
-            if(verificaPalindromo(palavra, tam-1)) printf("SIM\n");
+            if(verificaPalindromo(palavra, tam)) printf("SIM\n");
             else printf("NAO\n");
+        
         }
 
-    }while(!comparaFIM(palavra));       
+    }while(!comparaFIM(palavra));     
+    
+    //free(palavra);
     
     return 0;
 }
+```
