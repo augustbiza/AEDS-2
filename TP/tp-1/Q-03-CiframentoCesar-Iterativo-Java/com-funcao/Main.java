@@ -10,7 +10,10 @@ class Main {
         for(int i = 0; i < tam2; i++) {
             str2[i] = str.charAt(i);            //copia a string para um char array
 
-            str2[i] += 3;                       //alterando o unicode da tabela ascci, logo altera-se o caractere em 3 pra frente
+            if(str2[i] >= 32 && str2[i] <= 127) {   //só vai trocar se o char tiver dentro da tabela ascii
+
+                str2[i] += 3;                   //alterando o unicode da tabela ascci, logo altera-se o caractere em 3 pra frente
+            }
         }
 
         String strCesar = new String (str2);    //transforma o char array em string
