@@ -1,4 +1,4 @@
-//Palindromo iterativo em Java
+//Palindromo em Java (recursivo)
 import java.util.Scanner;
 
 class Main {
@@ -12,41 +12,41 @@ class Main {
         return igualFim;
     }
 
-    public static boolean verificaPalindromo(String str, int tam) {
+    public static boolean verificaPalindromo(String str, int i, int tam) {
 
         boolean palindromo = true;
 
-        int i = 0;
+        if(i <= tam/2)
+        {
 
-        while(i < tam/2 && palindromo) {
-
-            if(str.charAt(i) != str.charAt(tam-1-i)) palindromo = false;      //tam-1 = ultimo caractere da string
-                                                                             //tam-i = a mesma distancia que i está do início(0) tam estará do final(tam-1)
-            i++;
+            if(str.charAt(i) != str.charAt(tam-i-1)) palindromo = false;
+            else {
+                palindromo = verificaPalindromo(str, i+1, tam);
+            }
         }
 
         return palindromo;
     }
+
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
         String str = new String();
         int tam = 1;
-        
+
         do{
-            
+
             str = scan.nextLine();
             tam = str.length();
 
             if(!comparaFim(str, tam)) {
 
-            
-                if(verificaPalindromo(str, tam)) System.out.println("SIM");
+                if(verificaPalindromo(str, 0, tam)) System.out.println("SIM");
                 else System.out.println("NAO");
             }
 
-        } while(!comparaFim(str, tam));
+        }while(!comparaFim(str, tam));
 
         scan.close();
     }
