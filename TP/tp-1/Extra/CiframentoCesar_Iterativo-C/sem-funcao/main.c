@@ -27,13 +27,7 @@ bool comparaFIM(char* str, int tam) {
 
     return igual;
 }
-/*
-void charEspecial(char* str, int tam) {
-    for(int i = 0; i < tam; i++) {
-        if(str[i] < 32 || str[i > 127]) str[i] = '';
-    }
-}
-*/
+
 void ciframentoCesar(char* str, int tam) {
     for(int i = 0; i < tam; i++) {
         str[i] += 3;
@@ -53,7 +47,6 @@ int main(void) {
 
         if(!comparaFIM(str, tam)) {
 
-            //charEspecial(str, tam);
             ciframentoCesar(str, tam);
             printf("%s\n", str);
         }
