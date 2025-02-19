@@ -1,8 +1,11 @@
 //ler string
-char* lerPalavra(void) {
+void lerStr(char* str) {
 
-    char* palavra = malloc(sizeof(char) * 100);
-    scanf(" %[^\n]", palavra);
+    scanf(" %[^\n\r]", str);
+}
 
-    return palavra;
+int main() {
+
+    char* str = malloc(sizeof(char) * 1000);
+    lerStr(str);
 }

@@ -1,5 +1,5 @@
 //strlen
-int tamanhoPalavra(char* palavra) {
+int tamanhoStr(char* str) {
     int tam = 0;
 
     while(palavra[tam] != '\0') {

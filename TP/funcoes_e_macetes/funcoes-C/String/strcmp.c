@@ -1,7 +1,7 @@
 //strcmp
 //strcmp(string, string)
 
-bool compara(char* palavra, char*modelo) {
+bool compara(char* str, char*modelo) {
 
     bool igual = false;
 
@@ -12,14 +12,14 @@ bool compara(char* palavra, char*modelo) {
 
 int main(void) {
 
-    char* palavra;
+    char* str;
 
     do {
 
-        scanf(" %[^\n]", palavra);
+        scanf(" %[^\n]", str);
 
-        if(!comparaFIM(palavra, )) {
+        if(!comparaFIM(str, )) {
             //instruções
         }
-    }while(!comparaFIM(palavra))
+    }while(!comparaFIM(str))
 }

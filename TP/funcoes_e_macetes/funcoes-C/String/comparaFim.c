@@ -1,24 +1,24 @@
 //strcmp(string, "FIM")
 
-bool comparaFIM(char* palavra) {
+bool comparaFIM(char* str) {
 
     bool igual = false;
 
-    if(palavra[0] == 'F' && palavra[1] == 'I' && palavra[2] == 'M' && palavra[3] == '\0') igual = true;
+    if(str[0] == 'F' && str[1] == 'I' && str[2] == 'M' && str[3] == '\0') igual = true;
 
     return igual;
 }
 
 int main(void) {
 
-    char* palavra;
+    char* str;
 
     do {
 
-        scanf(" %[^\n]", palavra);
+        scanf(" %[^\n]", str);
 
-        if(!comparaFIM(palavra)) {
+        if(!comparaFIM(str)) {
             //instruções
         }
-    }while(!comparaFIM(palavra))
+    }while(!comparaFIM(str))
 }
