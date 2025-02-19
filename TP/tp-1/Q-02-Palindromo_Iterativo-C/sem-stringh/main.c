@@ -19,6 +19,12 @@ int tamanhoPalavra(char* palavra) {     //strlen feito manualmente
     return tam;                         //devolve o número exato de caracteres usados (Ana: 3 / Azul: 4)
 }
 
+void charEspeciais(char* palavra,int tam) {
+    for(int i = 0; i < tam; i++) {
+        if(palavra[i] < 32 || palavra[i] > 127) palavra[i] = '.';   //troca o char da utf-8 para um char da ascii
+    }
+}
+
 bool verificaPalindromo(char* palavra, int tam) {
 
     bool palindromo = true;
@@ -54,6 +60,8 @@ int main(void) {
         if(!comparaFIM(palavra)) {
 
             int tam = tamanhoPalavra(palavra);
+
+            charEspeciais(palavra, tam);
 
             if(verificaPalindromo(palavra, tam)) printf("SIM\n");
             else printf("NAO\n");

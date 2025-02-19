@@ -9,6 +9,12 @@ void lerPalavra(char* str) {
     scanf(" %[^\n\r]", str);
 }
 
+void charEspeciais(char* palavra,int tam) {
+    for(int i = 0; i < tam; i++) {
+        if(palavra[i] < 32 || palavra[i] > 127) palavra[i] = '.';   //troca o char da utf-8 para um char da ascii
+    }
+}
+
 bool verificaPalindromo(char* palavra, int i, int f) {
 
     bool palindromo = true;
@@ -35,6 +41,8 @@ int main(void) {
         if(strcmp(palavra, "FIM") != 0) {
 
             int tam = strlen(palavra);
+
+            charEspeciais(palavra, tam);
 
             if(verificaPalindromo(palavra, 0, tam)) printf("SIM\n");
             else printf("NAO\n");
