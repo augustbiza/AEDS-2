@@ -66,7 +66,7 @@ public class Main {
 		    if(!comparaFim(str, tam)) {
 		        
 		        if(verificaSenha(str, tam)) System.out.print("SIM\n");
-		        else System.out.print("NÃO\n");
+		        else System.out.print("NAO\n");
 		    }
 		    
 		}while(!comparaFim(str, tam));
