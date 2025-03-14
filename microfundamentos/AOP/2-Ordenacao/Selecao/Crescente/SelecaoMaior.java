@@ -1,4 +1,4 @@
-//seleciona sempre o menor elemento
+//seleciona sempre o menor elemento e coloca na esquerda
 
 public class SelecaoMaior {
 	
