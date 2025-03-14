@@ -1,27 +1,38 @@
-//seleciona sempre o menor elemento
+//Seleção que troca o maior e o menor a cada laço
 
-public class SelecaoMaior {
+public class SelecaoDuplo {
 	
 	public static void selecao(int[] arr, int tam) {
 	    
-	    for(int i = tam-1; i > 0; i--) {
+	    for(int i = 0; i < tam/2; i++) {
 	        
-	        int maior = i;
+	        int menor = i, maior = tam-i-1;
 	        
-	        for(int f = i-1; f >= 0; f--) {
+	        for(int f = tam-i-1; f > i; f--) {
+	            
+	            if(arr[f] < arr[menor]) {
+	                menor = f;
+	            }
 	            
 	            if(arr[f] > arr[maior]) {
 	                maior = f;
 	            }
 	        }
 	        
-	        if(arr[i] != arr[maior]) {
+	        if(arr[i] != arr[menor]) {
 	            
 	            int aux = arr[i];
-	            arr[i] = arr[maior];
+	            arr[i] = arr[menor];
+	            arr[menor] = aux;
+	        }
+	        
+	        if(arr[tam-i-1] != arr[maior]) {
+	            int aux = arr[tam-i-1];
+	            arr[tam-i-1] = arr[maior];
 	            arr[maior] = aux;
 	        }
 	    }
+	    
 	}
 	
 	
