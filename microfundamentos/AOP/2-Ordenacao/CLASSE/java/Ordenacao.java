@@ -3,10 +3,10 @@ import java.util.*;
 
 class Ordenacao {
 
-    private int[] arr;
-    private int tam;
+    protected int[] arr;
+    protected int tam;
 
-    public Ordenacao(void) {        //construtor sem parâmetro
+    public Ordenacao() {        //construtor sem parâmetro
 
         arr = new int[100];
         tam = arr.length;
@@ -18,14 +18,23 @@ class Ordenacao {
         arr = new int[tam];
     }
 
-    public void mostrarArray(void) {
-
-        System.out.println("Array: " + tam + " elementos:");
+    public void preencherArray(Scanner scan) {
 
         for(int i = 0; i < tam; i++) {
 
-            System.out.println(arr[i] + " ");
+            arr[i] = scan.nextInt();
         }
+    }
+
+    public void mostrarArray() {
+
+        System.out.println("Array " + tam + " elementos:");
+
+        for(int i = 0; i < tam; i++) {
+
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
     }
 
     public void mostrarPosicao(int posicao) {
@@ -42,7 +51,7 @@ class Ordenacao {
 
     }
 
-    public void verificarOrdenacao(void) {
+    public void verificarOrdenacao() {
 
         boolean crescente = true;
 
@@ -80,4 +89,9 @@ class Ordenacao {
             System.out.println("Array NÃO está ordenado");
         }
     }
+
+    public void sort() {}
+
+    public void sortInverse() {}
+
 }
