@@ -1,6 +1,6 @@
 public static void mostrarArray(int[] arr) {
 
-    int tam = arr.lenght;
+    int tam = arr.length;
     
     System.out.println("Array: " + tam + " elementos");
         
