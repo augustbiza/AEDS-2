@@ -1,4 +1,6 @@
-public static void mostrarArray(int[] arr, int tam) {
+public static void mostrarArray(int[] arr) {
+
+    int tam = arr.lenght;
     
     System.out.println("Array: " + tam + " elementos");
         

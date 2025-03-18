@@ -1,4 +1,6 @@
-void mostrarArray(int arr[tam], int tam) {
+void mostrarArray(int arr[tam]) {
+
+    int tam = str.len(arr);
     
     printf("Array: %d elementos\n", tam);
         
