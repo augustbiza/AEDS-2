@@ -2,17 +2,27 @@
 ## Ler uma String
 #### C - scanf(" %[^\n], )
 ```c
+//string
+char str[15];
+
+scanf(" %[^\n]", str);
+
+// char
+
+```
+#### Java - scanner.nextLine()
+```java
+//String
+String str = new String();
+
+str = scanner.nectLine();
+
+// char
 char[] array = new char[15];
 	    
 for(int i = 0; i < 15; i++) {
     array[i] = scanner.next().charAt(0);
 }
-```
-#### Java - scanner.nextLine()
-```java
-String str = new String();
-
-str = scanner.nectLine();
 ```
 ## Tamanho da String
 #### C - strlen()
