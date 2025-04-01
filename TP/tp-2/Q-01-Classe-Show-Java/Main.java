@@ -1,5 +1,8 @@
 // Q_01 - Classe Show - Java
 import java.util.*;
+import java.io.*;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 class Show {
 
@@ -7,10 +10,10 @@ class Show {
     private String show_id;
     private String type;
     private String title;
-    private ArrayList<String> director;
+    private String director;
     private ArrayList<String> cast;
-    private ArrayList<String> country;
-    private String date_added;
+    private String country;
+    private Date date_added;
     private int release_year;
     private String rating;
     private String duration;
@@ -37,6 +40,17 @@ class Show {
         setListedIn(listed_in);
         setDescription(description);
     }
+
+    public Show(String line) {
+        String[] atributes = line.split(",");
+    }
+
+    //clone
+    public Show clone() {
+        Show clone = new Show(getShowId(), getType(), getTitle(), getDirector(), new ArrayList<>(getCast()), getCountry(), getDateAdded(), getReleaseYear(), getRating(), getDuration(), new ArrayList<>(getListedIn()), getDescription());
+
+        return new clone;
+    }
     
     //sets and gets
     public void setShowId(String show_id) {
@@ -60,10 +74,10 @@ class Show {
         return title;
     }
 
-    public void setDirector(ArrayList<String> director) {
+    public void setDirector(String director) {
         this.director = director;
     }
-    public ArrayList<String> getDirector() {
+    public String getDirector() {
         return director;
     }
 
@@ -74,17 +88,17 @@ class Show {
         return cast;
     }
 
-    public void setCountry(ArrayList<String> country) {
+    public void setCountry(String country) {
         this.country = country;
     }
-    public ArrayList<String> getCountry() {
+    public String getCountry() {
         return country;
     }
 
-    public void setDateAdded(String date_added) {
+    public void setDateAdded(Date date_added) {
         this.date_added = date_added;
     }
-    public String getDateAdded() {
+    public DAte getDateAdded() {
         return date_added;
     }
 
@@ -126,9 +140,12 @@ class Show {
 
 
 class Main {
-    Scanner scan = new Scanner(System.in);
+    
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
 
-    ArrayList<Show> = new ArrayList<Show>();
+        ArrayList<Show> = new ArrayList<Show>();
 
-    scan.close();
+        scan.close();
+    }
 }
