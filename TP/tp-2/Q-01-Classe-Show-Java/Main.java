@@ -1,4 +1,4 @@
-// Q_01 - Classe Show - Java
+// Q-01 - Classe Show - Java
 import java.util.*;
 import java.io.*;
 import java.time.*;
@@ -18,14 +18,13 @@ class Show {
     private String rating;
     private String duration;
     private ArrayList<String> listed_in;
-    private String description;
 
         //methods
 
     //constructors
     public Show() {}
 
-    public Show(String show_id, String type, String title, ArrayList<String> director, ArrayList<String> cast, ArrayList<String> country, String date_added, int release_year, String rating, String duration, ArrayList<String> listed_in, String description) {
+    public Show(String show_id, String type, String title, ArrayList<String> director, ArrayList<String> cast, ArrayList<String> country, String date_added, int release_year, String rating, String duration, ArrayList<String> listed_in) {
 
         setShowId(show_id);
         setType(type);
@@ -38,7 +37,6 @@ class Show {
         setRating(rating);
         setDuration(duration);
         setListedIn(listed_in);
-        setDescription(description);
     }
 
     public Show(String line) {
@@ -47,7 +45,7 @@ class Show {
 
     //clone
     public Show clone() {
-        Show clone = new Show(getShowId(), getType(), getTitle(), getDirector(), new ArrayList<>(getCast()), getCountry(), getDateAdded(), getReleaseYear(), getRating(), getDuration(), new ArrayList<>(getListedIn()), getDescription());
+        Show clone = new Show(getShowId(), getType(), getTitle(), getDirector(), new ArrayList<>(getCast()), getCountry(), getDateAdded(), getReleaseYear(), getRating(), getDuration(), new ArrayList<>(getListedIn()));
 
         return new clone;
     }
@@ -130,11 +128,9 @@ class Show {
         return listed_in;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    public String getDescription() {
-        return description;
+    public String imprimir() {
+
+        
     }
 }
 
@@ -142,10 +138,33 @@ class Show {
 class Main {
     
     public static void main(String[] args) {
+
+        ArrayList<Show> shows = new ArrayList<Show>();
+
+        String path = "/temp/disneyplus.csv";
+
+        try {
+            
+            Scanner scan = new Scanner(new File(path));     //Scanner do arquivo
+            scan.nextLine();    //pula a linha dos tópicos do csv
+
+            while(scan.hasNextLine()) {
+
+                shows.add(new Show(scan.nextLine()));
+            }
+
+            scan.close();
+        
+        } catch (Exception e) {
+
+            System.out.println("Erro ao escrever");     //Scanner teclado
+        }
+
         Scanner scan = new Scanner(System.in);
 
-        ArrayList<Show> = new ArrayList<Show>();
+
 
         scan.close();
+
     }
 }
