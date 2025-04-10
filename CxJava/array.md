@@ -53,6 +53,23 @@ int array[5];
 
 int n = sizeof(array)/sizeof(array[0]);
 ```
+##### Observação: Array x Pointer
+```c
+
+    int* a = (int*)malloc(sizeof(int)*5);
+    for(int i = 0; i < 5; i++) {
+        a[i] = i+1;
+    }
+    
+    int b[] = {1,2,3,4,5};
+
+    int na = sizeof(a)/sizeof(a[0]);
+    int nb = sizeof(b)/sizeof(b[0]);
+    
+    printf("Size A: %d  Size B: %d\n", na, nb);
+```
+Size A = tamanho do ponteiro  
+Size B = tamanho do Array
 #### Java - .length
 ```java
 int[] array = new int[5];
