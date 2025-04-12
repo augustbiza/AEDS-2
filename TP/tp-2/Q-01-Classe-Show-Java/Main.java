@@ -56,11 +56,16 @@ class Show {
 
         setShowId(item[0].trim());
         setType(item[1].trim());
-        setTitle(item[2].trim());
+        //setTitle(item[2].trim());
+        //removendo aspas do title
+        String rawTitle = item[2].trim().replace("\"", "");
+        setTitle(rawTitle.isEmpty() ? null : rawTitle);
+
+
 
         // Director (pode ser vazio)
-        String rawDirector = item[3].trim();
-        setDirector(rawDirector.isEmpty() ? null : rawDirector);
+        String rawDirector = item[3].trim().replace("\"", "");
+        setDirector(rawDirector.isEmpty() ? null : rawDirector);    
 
         // Cast (pode ser vazio)
         ArrayList<String> castList = new ArrayList<>();
@@ -73,6 +78,7 @@ class Show {
             }
         }
         setCast(castList);
+        insertionSort(this.cast);   //ordena cast
 
         // Country (pode ser vazio)
         String rawCountry = item[5].replaceAll("\"", "").trim();
@@ -100,6 +106,7 @@ class Show {
             }
         }
         setListedIn(genreList);
+        insertionSort(this.listed_in);  //ordena listed in
 
     }
 
@@ -110,6 +117,9 @@ class Show {
     public String getTitle() { return title; };
     public String getDirector() { return director; }
     public String getCast() {
+
+        if(cast == null || cast.isEmpty()) return "[NaN]";
+
         String cast = "[";
 
         for(int i = 0; i < this.cast.size(); i++) {
@@ -123,6 +133,7 @@ class Show {
 
         return cast;
     }
+
     public String getCountry() { return country; }
     public Date getDateAdded() { return date_added; }
     public int getReleaseYear() { return release_year; }
@@ -157,40 +168,37 @@ class Show {
     public void setDuration(String duration) { this.duration = duration; }
     public void setListedIn(ArrayList<String> listed_in) { this.listed_in = listed_in; }
 
+    //ordenar
+    private void insertionSort(ArrayList<String> arr) {
+    for (int i = 1; i < arr.size(); i++) {
+        String aux = arr.get(i);
+        int j = i - 1;
+
+        while (j >= 0 && arr.get(j).compareToIgnoreCase(aux) > 0) {
+            arr.set(j + 1, arr.get(j));
+            j--;
+        }
+
+        arr.set(j + 1, aux);
+    }
+}
+
+
     //clone
     public Show clone() {
         return new Show(this.show_id, this.type, this.title, this.director, this.cast, this.country, this.date_added, this.release_year, this.rating, this.duration, this.listed_in);
     }
 
     //print
-    /*
-    public void imprimir() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
-
-        System.out.println("=> " +
-        this.getShowId() + " ## " +
-        this.getType() + " ## " +
-        this.getTitle() + " ## " +
-        (this.getDirector() == "" ? "NaN" : this.getDirector()) + " ## " + "["+
-        (this.getCast() == "" ? "NaN" : this.getCast()) + "] " + " ## " +
-        (this.getCountry() == "" ? "NaN" : this.getCountry()) + " ## " +
-        (this.getDateAdded() == null ? "NaN" : sdf.format(this.getDateAdded())) + " ## " +
-        this.getReleaseYear() + " ## " +
-        this.getRating() + " ## " +
-        this.getDuration() + " ## " + "[" +
-        this.getListedIn() + "] ##");
-    }
-    */
    public void imprimir() {
     SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
 
     System.out.println("=> " +
     this.getShowId() + " ## " +
-    this.getType() + " ## " +
     this.getTitle() + " ## " +
+    this.getType() + " ## " +
     (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
-    this.getCast() + "  ## " +
+    this.getCast() + " ## " +
     (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
     (this.getDateAdded() == null ? "NaN" : sdf.format(this.getDateAdded())) + " ## " +
     this.getReleaseYear() + " ## " +
@@ -207,7 +215,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        String csvFile = "/tmp/disneyplus.csv";
+        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
