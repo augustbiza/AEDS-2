@@ -2,7 +2,6 @@
 import java.util.*;
 import java.io.*;
 import java.time.*;
-import java.text.*;
 
 class Show {
 
@@ -51,66 +50,13 @@ class Show {
         this.listed_in = listed_in;
     }
 
-    public Show(String linha) throws ParseException {
-        String[] item = linha.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", 12);
-
-        setShowId(item[0].trim());
-        setType(item[1].trim());
-        setTitle(item[2].trim());
-
-        // Director (pode ser vazio)
-        String rawDirector = item[3].trim();
-        setDirector(rawDirector.isEmpty() ? null : rawDirector);
-
-        // Cast (pode ser vazio)
-        ArrayList<String> castList = new ArrayList<>();
-        String elencoBruto = item[4].replaceAll("\"", "").trim();
-        if (!elencoBruto.isEmpty()) {
-            for (String actor : elencoBruto.split(",")) {
-                if (!actor.trim().isEmpty()) {
-                    castList.add(actor.trim());
-                }
-            }
-        }
-        setCast(castList);
-
-        // Country (pode ser vazio)
-        String rawCountry = item[5].replaceAll("\"", "").trim();
-        setCountry(rawCountry.isEmpty() ? null : rawCountry);
-
-        // Date added (pode ser vazia)
-        String rawDate = item[6].replaceAll("\"", "").trim();
-        if (!rawDate.isEmpty()) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
-            setDateAdded(sdf.parse(rawDate));
-        } else {
-            setDateAdded(null);
-        }
-
-        setReleaseYear(Integer.parseInt(item[7].trim()));
-        setRating(item[8].trim());
-        setDuration(item[9].trim());
-
-        // Listed_in
-        ArrayList<String> genreList = new ArrayList<>();
-        String generoBruto = item[10].replaceAll("\"", "").trim();
-        for (String genre : generoBruto.split(",")) {
-            if (!genre.trim().isEmpty()) {
-                genreList.add(genre.trim());
-            }
-        }
-        setListedIn(genreList);
-
-    }
-
-
     //gets
     public String getShowId() { return show_id; }
     public String getType() { return type; }
     public String getTitle() { return title; };
     public String getDirector() { return director; }
     public String getCast() {
-        String cast = "[";
+        String cast = "{";
 
         for(int i = 0; i < this.cast.size(); i++) {
 
@@ -119,7 +65,7 @@ class Show {
             if(i < this.cast.size() - 1) cast += ", ";
         }
 
-        cast += "]";
+        cast += "}";
 
         return cast;
     }
@@ -130,7 +76,7 @@ class Show {
     public String getDuration() { return duration; }
 
     public String getListedIn() {
-        String listed_in = "[";
+        String listed_in = "{";
 
         for(int i = 0; i < this.listed_in.size(); i++) {
 
@@ -139,7 +85,7 @@ class Show {
             if(i < this.listed_in.size() - 1) listed_in += ", ";
         }
 
-        listed_in += "]";
+        listed_in += "}";
 
         return listed_in;
     }
@@ -163,51 +109,25 @@ class Show {
     }
 
     //print
-    /*
     public void imprimir() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
-
         System.out.println("=> " +
         this.getShowId() + " ## " +
         this.getType() + " ## " +
         this.getTitle() + " ## " +
-        (this.getDirector() == "" ? "NaN" : this.getDirector()) + " ## " + "["+
-        (this.getCast() == "" ? "NaN" : this.getCast()) + "] " + " ## " +
+        (this.getDirector() == "" ? "NaN" : this.getDirector()) + " ## " +
+        (this.getCast() == "" ? "NaN" : this.getCast()) + " ## " +
         (this.getCountry() == "" ? "NaN" : this.getCountry()) + " ## " +
-        (this.getDateAdded() == null ? "NaN" : sdf.format(this.getDateAdded())) + " ## " +
-        this.getReleaseYear() + " ## " +
-        this.getRating() + " ## " +
-        this.getDuration() + " ## " + "[" +
-        this.getListedIn() + "] ##");
+        
+        )
     }
-    */
-   public void imprimir() {
-    SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
-
-    System.out.println("=> " +
-    this.getShowId() + " ## " +
-    this.getType() + " ## " +
-    this.getTitle() + " ## " +
-    (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
-    this.getCast() + "  ## " +
-    (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
-    (this.getDateAdded() == null ? "NaN" : sdf.format(this.getDateAdded())) + " ## " +
-    this.getReleaseYear() + " ## " +
-    (this.getRating() == null || this.getRating().isEmpty() ? "NaN" : this.getRating()) + " ## " +
-    (this.getDuration() == null || this.getDuration().isEmpty() ? "NaN" : this.getDuration()) + " ## " +
-    this.getListedIn() + " ##"
-    );
-}
-
 
 }
 
 public class Main {
 
     public static void main(String[] args) {
-
-        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        
+        String csvFile = "/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
@@ -226,20 +146,13 @@ public class Main {
 
         String input = scan.nextLine();
 
-        while (!input.equals("FIM")) {
-            boolean encontrado = false;
-
-            for (Show show : shows) {
-                if (show.getShowId().equals(input)) {
-                    show.imprimir();
-                    encontrado = true;
-                    break;
-                }
-            }
-
-            input = scan.nextLine();
+        while(!input.equals("FIM")) {
+            int number = Integer.parseInt(input);
+            shows.get(number - 1).imprimir();
+            input = sc.nextLine();
         }
 
         scan.close();
+  
     }
 }
