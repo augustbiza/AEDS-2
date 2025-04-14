@@ -1,4 +1,4 @@
-
+//
 import java.util.*;
 import java.io.*;
 import java.time.*;
@@ -208,8 +208,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //String csvFile = "/tmp/disneyplus.csv";
-        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        String csvFile = "/tmp/disneyplus.csv";
+        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
@@ -217,7 +217,7 @@ public class Main {
         Scanner scan = new Scanner(new File(csvFile));
         scan.nextLine();    //pular cabeçalho
 
-        while (scan.hasNextLine()) {
+        while(scan.hasNextLine()) {
             shows.add(new Show(scan.nextLine()));
         }
 
@@ -229,12 +229,10 @@ public class Main {
         String input = scan.nextLine();
 
         while(!input.equals("FIM")) {
-            boolean encontrado = false;
 
             for(Show show : shows) {
-                if (show.getShowId().equals(input)) {
+                if(show.getShowId().equals(input)) {
                     show.imprimir();
-                    encontrado = true;
                     break;
                 }
             }

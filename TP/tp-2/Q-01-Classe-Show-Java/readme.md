@@ -338,3 +338,94 @@ insertionSort(this.listed_in);
 ## 6 - Insertion Sort
 
 # 2. Main Class
+```java
+String csvFile = "/tmp/disneyplus.csv";
+//ou
+String csvFile = "/home/AED-2/TP/tp-2/tmp/disneyplus.csv";
+```
+#### A String csvFile armazena o caminho do arquivo csv
+#### O primeiro é para o verde e o segundo é onde o arquivo csv está na minha minha máquina
+
+```java
+ArrayList<Show> shows = new ArrayList<Show>();
+```
+#### Cria um ArrayList do tipo Show para adicionar objetos do arquivo csv
+
+```java
+try {
+    Scanner scan = new Scanner(new File(csvFile));
+    scan.nextLine();  
+
+    while (scan.hasNextLine()) {
+        shows.add(new Show(scan.nextLine()));
+    }
+
+    scan.close();
+} catch(Exception e) { }
+```
+Vamos analisar por partes
+```java
+Scanner scan = new Scanner(new File(csvFile));
+```
+#### O Scanner vai ler o arquivo
+
+```java
+scan.nextLine();
+```
+#### Lê a primeira linha e ignora, pois ela é o cabeçalho
+
+```java
+while(scan.hasNextLine()) {
+    shows.add(new Show(scan.nextLine()));
+}
+```
+#### scan.hasNextLine() faz a leitura linha por linha do arquivo csv
+#### while(scan.hasNextLine()) = enquanto tiver linha para ler
+#### shows.add(new Show(scan.nextLine())) adiciona objetos do tipo Show no ArrayList<Show> shows
+
+```java
+scan.close();
+} catch(Exception e) { }
+```
+#### Fecha o Scanner e trata a exceção, porém sem mensagem de erro
+
+```java
+Scanner scan = new Scanner(System.in);
+```
+#### Abre um arquivo para ler o input da questão (s156 por exemplo)
+
+```java
+scan.nextLine();
+```
+#### Lê a primeira linha e ignora, pois ela é o cabeçalho
+
+```java
+String input = scan.nextLine();
+```
+#### A entrada/input é armazenada na String input (s156 por exemplo)
+
+```java
+while(!input.equals("FIM"))
+```
+#### Enquanto o input for diferente de FIM
+
+```java
+for(Show show : shows)
+```
+#### Vai percorrer todos os objetos de Show lidos do arquivo e armazenados no ArrayList<Show> shows
+
+```java
+if(show.getShowId().equals(input))
+```
+#### Se o show_id de algum objeto do ArrayList<Show> shows for igual à entrada (input que é um show_id)
+```java
+show.imprimir();
+break;
+```
+#### Mostra o objeto
+#### Para a procura com o break
+
+```java
+input = scan.nextLine();
+```
+#### Faz a leitura de uma nova entrada/input
