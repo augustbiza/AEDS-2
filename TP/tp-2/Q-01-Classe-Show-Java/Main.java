@@ -56,23 +56,20 @@ class Show {
 
         setShowId(item[0].trim());
         setType(item[1].trim());
-        //setTitle(item[2].trim());
-        //removendo aspas do title
-        String rawTitle = item[2].trim().replace("\"", "");
-        setTitle(rawTitle.isEmpty() ? null : rawTitle);
+        
+        String newTitle = item[2].trim().replace("\"", "");
+        setTitle(newTitle);
 
+        //director (pode ser vazio)
+        String newDirector = item[3].trim().replace("\"", "");
+        setDirector(newDirector.isEmpty() ? null : newDirector);    
 
-
-        // Director (pode ser vazio)
-        String rawDirector = item[3].trim().replace("\"", "");
-        setDirector(rawDirector.isEmpty() ? null : rawDirector);    
-
-        // Cast (pode ser vazio)
+        //cast (pode ser vazio)
         ArrayList<String> castList = new ArrayList<>();
         String elencoBruto = item[4].replaceAll("\"", "").trim();
-        if (!elencoBruto.isEmpty()) {
-            for (String actor : elencoBruto.split(",")) {
-                if (!actor.trim().isEmpty()) {
+        if(!elencoBruto.isEmpty()) {
+            for(String actor : elencoBruto.split(",")) {
+                if(!actor.trim().isEmpty()) {
                     castList.add(actor.trim());
                 }
             }
@@ -80,18 +77,15 @@ class Show {
         setCast(castList);
         insertionSort(this.cast);   //ordena cast
 
-        // Country (pode ser vazio)
-        String rawCountry = item[5].replaceAll("\"", "").trim();
-        setCountry(rawCountry.isEmpty() ? null : rawCountry);
+        //country (pode ser vazio)
+        String newCountry = item[5].replaceAll("\"", "").trim();
+        setCountry(newCountry.isEmpty() ? null : newCountry);
 
         // Date added (pode ser vazia)
-        String rawDate = item[6].replaceAll("\"", "").trim();
-        if (!rawDate.isEmpty()) {
-            SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
-            setDateAdded(sdf.parse(rawDate));
-        } else {
-            setDateAdded(null);
-        }
+        String newDate = item[6].replaceAll("\"", "").trim();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
+        if(!newDate.isEmpty()) setDateAdded(sdf.parse(newDate));
+        else setDateAdded(sdf.parse("March 1, 1900"));
 
         setReleaseYear(Integer.parseInt(item[7].trim()));
         setRating(item[8].trim());
@@ -109,7 +103,6 @@ class Show {
         insertionSort(this.listed_in);  //ordena listed in
 
     }
-
 
     //gets
     public String getShowId() { return show_id; }
@@ -170,11 +163,11 @@ class Show {
 
     //ordenar
     private void insertionSort(ArrayList<String> arr) {
-    for (int i = 1; i < arr.size(); i++) {
+    for(int i = 1; i < arr.size(); i++) {
         String aux = arr.get(i);
         int j = i - 1;
 
-        while (j >= 0 && arr.get(j).compareToIgnoreCase(aux) > 0) {
+        while(j >= 0 && arr.get(j).compareToIgnoreCase(aux) > 0) {
             arr.set(j + 1, arr.get(j));
             j--;
         }
@@ -200,7 +193,7 @@ class Show {
     (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
     this.getCast() + " ## " +
     (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
-    (this.getDateAdded() == null ? "NaN" : sdf.format(this.getDateAdded())) + " ## " +
+    (this.getDateAdded() == null ? "March 1, 1900" : sdf.format(this.getDateAdded())) + " ## " +
     this.getReleaseYear() + " ## " +
     (this.getRating() == null || this.getRating().isEmpty() ? "NaN" : this.getRating()) + " ## " +
     (this.getDuration() == null || this.getDuration().isEmpty() ? "NaN" : this.getDuration()) + " ## " +
@@ -215,8 +208,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String csvFile = "/tmp/disneyplus.csv";
-        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        //String csvFile = "/tmp/disneyplus.csv";
+        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
@@ -229,16 +222,16 @@ public class Main {
         }
 
         scan.close();
-        } catch (Exception e) { }
+        } catch(Exception e) { }
 
         Scanner scan = new Scanner(System.in);
 
         String input = scan.nextLine();
 
-        while (!input.equals("FIM")) {
+        while(!input.equals("FIM")) {
             boolean encontrado = false;
 
-            for (Show show : shows) {
+            for(Show show : shows) {
                 if (show.getShowId().equals(input)) {
                     show.imprimir();
                     encontrado = true;
