@@ -7,7 +7,8 @@
 //constantes
 #define csvFile "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv"
 //#define csvFile "/tmp/disneyplus.csv"
-#define tamShow 1368
+#define MAXShow 1368
+#define MAXLinha 500
 
 
 typedef struct {
@@ -38,6 +39,23 @@ typedef struc {
 }Show;
 
 
+Show shows[MAXShow];
+int showLength = 0;
+
+Show show_newBlank() {
+
+    Show show;
+
+    
+}
+
+
+Show show_read(char* line) {
+
+    Show show = show_newBlank();
+}
+
+
 void startShow() {
 
     FILE* fp;
@@ -57,7 +75,9 @@ void startShow() {
 
     while((read = getline(&line, &len, fp)) != -1) {
 
-        Show show = character_read(line);
+        Show show = show_read(line);
+
+
     }
 
 }
