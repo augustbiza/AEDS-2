@@ -3,13 +3,13 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MAX_LINE 2048
-#define MAX_INPUT 64
-#define MAX_SHOWS 1000
-#define MAX_CAST 50
-#define MAX_LISTED 50
+#define MAX_LINE 500
+#define MAX_INPUT 10
+#define MAX_SHOWS 1368
+#define MAX_CAST 10
+#define MAX_LISTED 10
 
-// Struct Show
+//class Show
 typedef struct {
     char* show_id;
     char* type;
@@ -26,15 +26,32 @@ typedef struct {
     int listed_in_count;
 } Show;
 
-// Funções auxiliares
+
 char* str_duplicate(const char* src) {
     if (!src) return NULL;
+
     char* dup = malloc(strlen(src) + 1);
     strcpy(dup, src);
+
     return dup;
 }
 
-// Sets
+//ordenar
+void insertionSort(char* arr[], int n) {
+    for (int i = 1; i < n; i++) {
+        char* aux = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && strcmp(arr[j], aux) > 0) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = aux;
+    }
+}
+
+//sets
 void setShowId(Show* s, const char* id) { s->show_id = str_duplicate(id); }
 void setType(Show* s, const char* type) { s->type = str_duplicate(type); }
 void setTitle(Show* s, const char* title) { s->title = str_duplicate(title); }
@@ -50,6 +67,7 @@ void setCast(Show* s, char* parts[], int count) {
     for (int i = 0; i < count; i++) {
         s->cast[i] = str_duplicate(parts[i]);
     }
+    insertionSort(s->cast, s->cast_count);
 }
 
 void setListedIn(Show* s, char* parts[], int count) {
@@ -57,9 +75,10 @@ void setListedIn(Show* s, char* parts[], int count) {
     for (int i = 0; i < count; i++) {
         s->listed_in[i] = str_duplicate(parts[i]);
     }
+    insertionSort(s->listed_in, s->listed_in_count);
 }
 
-// Gets
+//gets
 char* getShowId(Show* s) { return s->show_id; }
 
 char* getCast(Show* s) {
@@ -88,7 +107,7 @@ char* getListedIn(Show* s) {
     return result;
 }
 
-// Imprimir
+//print
 void imprimirShow(Show* s) {
     char* castStr = getCast(s);
     char* listedStr = getListedIn(s);
@@ -111,7 +130,7 @@ void imprimirShow(Show* s) {
     free(listedStr);
 }
 
-// Criar show a partir de linha CSV
+//construtor que recebe a linha do csv
 Show* createShowFromCSV(char* line) {
     Show* s = malloc(sizeof(Show));
     memset(s, 0, sizeof(Show));
@@ -136,11 +155,11 @@ Show* createShowFromCSV(char* line) {
             token[pos++] = c;
         }
     }
+
     token[pos] = '\0';
     tokens[t++] = str_duplicate(token);
     free(token);
 
-    // Aplicar setters
     setShowId(s, tokens[0]);
     setType(s, tokens[1]);
     setTitle(s, tokens[2]);
@@ -148,6 +167,7 @@ Show* createShowFromCSV(char* line) {
 
     char* castParts[MAX_CAST];
     int castCount = 0;
+
     char* castTok = strtok(tokens[4], ",");
     while (castTok) {
         while (isspace(*castTok)) castTok++;
@@ -164,6 +184,7 @@ Show* createShowFromCSV(char* line) {
 
     char* listParts[MAX_LISTED];
     int listCount = 0;
+    
     char* listTok = strtok(tokens[10], ",");
     while (listTok) {
         while (isspace(*listTok)) listTok++;
@@ -179,7 +200,7 @@ Show* createShowFromCSV(char* line) {
     return s;
 }
 
-// Free
+//free geral
 void freeShow(Show* s) {
     if (!s) return;
 
@@ -203,12 +224,12 @@ void freeShow(Show* s) {
     free(s);
 }
 
-// Main
-int main() {
-    //FILE* file = fopen("/tmp/disneyplus.csv", "r");
-    FILE* file = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
 
-    if (!file) {
+int main() {
+    //FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
+    FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
+
+    if (!csvFile) {
         perror("Erro ao abrir o arquivo");
         return 1;
     }
@@ -217,22 +238,23 @@ int main() {
     int showCount = 0;
 
     char line[MAX_LINE];
-    fgets(line, MAX_LINE, file); // pula cabeçalho
+    fgets(line, MAX_LINE, csvFile); // pula cabeçalho
 
-    while (fgets(line, MAX_LINE, file) && showCount < MAX_SHOWS) {
+    while (fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
         line[strcspn(line, "\n")] = 0;
         shows[showCount++] = createShowFromCSV(line);
     }
 
-    fclose(file);
+    fclose(csvFile);
 
     char input[MAX_INPUT];
     fgets(input, MAX_INPUT, stdin);
-    input[strcspn(input, "\n")] = 0;
+
+    input[strcspn(input, "\n")] = 0; // Remover a nova linha da entrada
 
     while (strcmp(input, "FIM") != 0) {
         int found = 0;
-
+        
         for (int i = 0; i < showCount; i++) {
             if (strcmp(getShowId(shows[i]), input) == 0) {
                 imprimirShow(shows[i]);
@@ -240,9 +262,9 @@ int main() {
                 break;
             }
         }
-
+        
         fgets(input, MAX_INPUT, stdin);
-        input[strcspn(input, "\n")] = 0;
+        input[strcspn(input, "\n")] = 0; // Limpar a entrada novamente
     }
 
     for (int i = 0; i < showCount; i++) {
