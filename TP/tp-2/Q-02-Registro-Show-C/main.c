@@ -4,7 +4,7 @@
 #include <ctype.h>
 
 #define MAX_LINE 500
-#define MAX_INPUT 10
+#define MAX_ID 6
 #define MAX_SHOWS 1368
 #define MAX_CAST 10
 #define MAX_LISTED 10
@@ -27,7 +27,7 @@ typedef struct {
 } Show;
 
 //copia structs
-char* str_duplicate(const char* src) {
+char* copyShow(const char* src) {
     if (!src) return NULL;
 
     char* dup = malloc(strlen(src) + 1);
@@ -51,20 +51,20 @@ void insertionSort(char* arr[], int n) {
 }
 
 //sets
-void setShowId(Show* s, const char* id) { s->show_id = str_duplicate(id); }
-void setType(Show* s, const char* type) { s->type = str_duplicate(type); }
-void setTitle(Show* s, const char* title) { s->title = str_duplicate(title); }
-void setDirector(Show* s, const char* dir) { s->director = str_duplicate(dir); }
-void setCountry(Show* s, const char* country) { s->country = str_duplicate(country); }
-void setDateAdded(Show* s, const char* date) { s->date_added = str_duplicate(date); }
+void setShowId(Show* s, const char* id) { s->show_id = copyShow(id); }
+void setType(Show* s, const char* type) { s->type = copyShow(type); }
+void setTitle(Show* s, const char* title) { s->title = copyShow(title); }
+void setDirector(Show* s, const char* dir) { s->director = copyShow(dir); }
+void setCountry(Show* s, const char* country) { s->country = copyShow(country); }
+void setDateAdded(Show* s, const char* date) { s->date_added = copyShow(date); }
 void setReleaseYear(Show* s, int year) { s->release_year = year; }
-void setRating(Show* s, const char* rating) { s->rating = str_duplicate(rating); }
-void setDuration(Show* s, const char* duration) { s->duration = str_duplicate(duration); }
+void setRating(Show* s, const char* rating) { s->rating = copyShow(rating); }
+void setDuration(Show* s, const char* duration) { s->duration = copyShow(duration); }
 
 void setCast(Show* s, char* parts[], int count) {
     s->cast_count = count;
     for(int i = 0; i < count; i++) {
-        s->cast[i] = str_duplicate(parts[i]);
+        s->cast[i] = copyShow(parts[i]);
     }
     insertionSort(s->cast, s->cast_count);
 }
@@ -72,7 +72,7 @@ void setCast(Show* s, char* parts[], int count) {
 void setListedIn(Show* s, char* parts[], int count) {
     s->listed_in_count = count;
     for(int i = 0; i < count; i++) {
-        s->listed_in[i] = str_duplicate(parts[i]);
+        s->listed_in[i] = copyShow(parts[i]);
     }
     insertionSort(s->listed_in, s->listed_in_count);
 }
@@ -81,7 +81,7 @@ void setListedIn(Show* s, char* parts[], int count) {
 char* getShowId(Show* s) { return s->show_id; }
 
 char* getCast(Show* s) {
-    if(s->cast_count == 0) return str_duplicate("[NaN]");
+    if(s->cast_count == 0) return copyShow("[NaN]");
 
     char* result = malloc(1024);
     strcpy(result, "[");
@@ -149,7 +149,7 @@ Show* createShowFromCSV(char* line) {
         } 
         else if(c == ',' && !inQuotes) {
             token[pos] = '\0';
-            tokens[t++] = str_duplicate(token);
+            tokens[t++] = copyShow(token);
             pos = 0;
         } 
         else {
@@ -157,7 +157,7 @@ Show* createShowFromCSV(char* line) {
         }
     }
     token[pos] = '\0';
-    tokens[t++] = str_duplicate(token);
+    tokens[t++] = copyShow(token);
     free(token);
 
     setShowId(s, tokens[0]);
@@ -200,7 +200,7 @@ Show* createShowFromCSV(char* line) {
 
 //free geral
 void freeShow(Show* s) {
-    if(!s) return;
+    if(s == NULL) return;   
 
     free(s->show_id);
     free(s->type);
@@ -227,7 +227,7 @@ int main() {
     //FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
     FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
 
-    if(!csvFile) {
+    if(csvFile == NULL) {
         perror("Erro ao abrir o arquivo");
         return 1;
     }
@@ -236,7 +236,7 @@ int main() {
     int showCount = 0;
 
     char line[MAX_LINE];
-    fgets(line, MAX_LINE, csvFile); // pula cabeçalho
+    fgets(line, MAX_LINE, csvFile); //pula cabeçalho
 
     while(fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
         line[strcspn(line, "\n")] = 0;
@@ -245,24 +245,22 @@ int main() {
 
     fclose(csvFile);
 
-    char input[MAX_INPUT];
-    fgets(input, MAX_INPUT, stdin);
+    char id[MAX_ID];
+    fgets(id, MAX_ID, stdin);
 
-    input[strcspn(input, "\n")] = 0; // Remover a nova linha da entrada
+    id[strcspn(id, "\n")] = 0; //remove '\n'
 
-    while(strcmp(input, "FIM") != 0) {
-        int found = 0;
+    while(strcmp(id, "FIM") != 0) {
         
-        for (int i = 0; i < showCount; i++) {
-            if (strcmp(getShowId(shows[i]), input) == 0) {
+        for(int i = 0; i < showCount; i++) {
+            if(strcmp(getShowId(shows[i]), id) == 0) {
                 imprimirShow(shows[i]);
-                found = 1;
                 break;
             }
         }
         
-        fgets(input, MAX_INPUT, stdin);
-        input[strcspn(input, "\n")] = 0; // Limpar a entrada novamente
+        fgets(id, MAX_ID, stdin);
+        id[strcspn(id, "\n")] = 0; //remove '\n'
     }
 
     for(int i = 0; i < showCount; i++) {
