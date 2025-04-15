@@ -27,13 +27,13 @@ typedef struct {
 } Show;
 
 //copia structs
-char* copyShow(const char* src) {
-    if (!src) return NULL;
+char* copyShow(const char* atributo) {
+    if(atributo == NULL) return NULL;
 
-    char* dup = malloc(strlen(src) + 1);
-    strcpy(dup, src);
+    char* copy = malloc(strlen(atributo) + 1);
+    strcpy(copy, atributo);
 
-    return dup;
+    return copy;
 }
 //ordenar
 void insertionSort(char* arr[], int n) {

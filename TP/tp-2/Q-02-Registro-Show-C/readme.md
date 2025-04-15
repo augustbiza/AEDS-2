@@ -147,15 +147,107 @@ for(int i = 0; i < showCount; i++) {
 
 
 # 5. Sets
+### Exemplo 1 - não recomendado
+```c
+void setShowId(Show* s, const char* id) {
+    s->show_id = malloc(strlen(id) + 1);
+    strcpy(s->show_id, id);
+}
+```
+### Exemplo 2 - recomendado
+```c
+char* copyShow(const char* atributo) {
+    if(atributo == NULL) return NULL;
+
+    char* copy = malloc(strlen(atributo) + 1);
+    strcpy(copy, atributo);
+
+    return copy;
+}
+
+void setShowId(Show* s, const char* id) {
+    s->show_id = copyShow(id);
+}
+```
+### Explicação
+#### O exemplo 1 faz a alocacação dinâmica dentro da função set e copia o valor para o atributo diretamente
+#### O exemplo 2 chama uma função específica para fazer a alocação dinâmica e cópia do valor, retorna esse valor e atrui ao atributo
+
+```c
+void setShowId(Show* s, const char* id) { s->show_id = copyShow(id); }
+void setType(Show* s, const char* type) { s->type = copyShow(type); }
+void setTitle(Show* s, const char* title) { s->title = copyShow(title); }
+void setDirector(Show* s, const char* dir) { s->director = copyShow(dir); }
+void setCountry(Show* s, const char* country) { s->country = copyShow(country); }
+void setDateAdded(Show* s, const char* date) { s->date_added = copyShow(date); }
+void setReleaseYear(Show* s, int year) { s->release_year = year; }
+void setRating(Show* s, const char* rating) { s->rating = copyShow(rating); }
+void setDuration(Show* s, const char* duration) { s->duration = copyShow(duration); }
+```
+#### Setam os valores dos atributos utilizando a função copyShow() para fazer alocação dinâmica e copia de valor
+
+cast e listed_in são ponteiros para arrays e possuem sets diferentes dos demais
+```c
+void setCast(Show* s, char* parts[], int count) {
+    s->cast_count = count;
+    for(int i = 0; i < count; i++) {
+        s->cast[i] = copyShow(parts[i]);
+    }
+    insertionSort(s->cast, s->cast_count);
+}
+```
+#### A função setCast() apenas modifica o valor do atributo cast (não possui retorno)
+####
+
+```c
+void setListedIn(Show* s, char* parts[], int count) {
+    s->listed_in_count = count;
+    for(int i = 0; i < count; i++) {
+        s->listed_in[i] = copyShow(parts[i]);
+    }
+    insertionSort(s->listed_in, s->listed_in_count);
+}
+```
+#### A função setListedin() apenas modifica o valor do atributo listed_in (não possui retorno)
+#### 
 
 
-# 6. Gets
+# 6. copyShow
+```c
+char* copyShow(const char* atributo) {
+    if(atributo == NULL) return NULL;
+
+    char* copy = malloc(strlen(atributo) + 1);
+    strcpy(copy, atributo);
+
+    return copy;
+}
+```
+Vamos analisar por partes
+
+```c
+char* copyShow(const char* atributo)
+```
+#### O tipo da função é char* pois ela será atribuída à um atributo de tipo char*
+#### 
+#### O parâmetro ponteiro para char é "const" para a função copyShow não poder mudar o valor do parâmetro passado
+
+```c
+if(atributo == NULL) return NULL;
+```
+#### Se o parâmetro passado for nulo, não tem o que setar no atributo. Logo retorna NULL
+
+```c
+char* copy = malloc(strlen(atributo) + 1);
+```
+#### Aloca memória dinamicamente para um novo ponteiro para char
+#### 
+
+# 7. Gets
 
 
-# 7. copyShow
 
-
-# 5. freeShow
+# 8. freeShow
 ```c
 void freeShow(Show* s) {
     if(s == NULL) return;   
