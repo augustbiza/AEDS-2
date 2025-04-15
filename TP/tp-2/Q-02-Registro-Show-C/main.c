@@ -26,7 +26,7 @@ typedef struct {
     int listed_in_count;
 } Show;
 
-// Funções auxiliares
+//copia structs
 char* str_duplicate(const char* src) {
     if (!src) return NULL;
 
@@ -37,11 +37,11 @@ char* str_duplicate(const char* src) {
 }
 //ordenar
 void insertionSort(char* arr[], int n) {
-    for (int i = 1; i < n; i++) {
+    for(int i = 1; i < n; i++) {
         char* aux = arr[i];
         int j = i - 1;
 
-        while (j >= 0 && strcmp(arr[j], aux) > 0) {
+        while(j >= 0 && strcmp(arr[j], aux) > 0) {
             arr[j + 1] = arr[j];
             j--;
         }
@@ -50,7 +50,7 @@ void insertionSort(char* arr[], int n) {
     }
 }
 
-// Sets
+//sets
 void setShowId(Show* s, const char* id) { s->show_id = str_duplicate(id); }
 void setType(Show* s, const char* type) { s->type = str_duplicate(type); }
 void setTitle(Show* s, const char* title) { s->title = str_duplicate(title); }
@@ -63,7 +63,7 @@ void setDuration(Show* s, const char* duration) { s->duration = str_duplicate(du
 
 void setCast(Show* s, char* parts[], int count) {
     s->cast_count = count;
-    for (int i = 0; i < count; i++) {
+    for(int i = 0; i < count; i++) {
         s->cast[i] = str_duplicate(parts[i]);
     }
     insertionSort(s->cast, s->cast_count);
@@ -71,22 +71,22 @@ void setCast(Show* s, char* parts[], int count) {
 
 void setListedIn(Show* s, char* parts[], int count) {
     s->listed_in_count = count;
-    for (int i = 0; i < count; i++) {
+    for(int i = 0; i < count; i++) {
         s->listed_in[i] = str_duplicate(parts[i]);
     }
     insertionSort(s->listed_in, s->listed_in_count);
 }
 
-// Gets
+//gets
 char* getShowId(Show* s) { return s->show_id; }
 
 char* getCast(Show* s) {
-    if (s->cast_count == 0) return str_duplicate("[NaN]");
+    if(s->cast_count == 0) return str_duplicate("[NaN]");
 
     char* result = malloc(1024);
     strcpy(result, "[");
 
-    for (int i = 0; i < s->cast_count; i++) {
+    for(int i = 0; i < s->cast_count; i++) {
         strcat(result, s->cast[i]);
         if (i < s->cast_count - 1) strcat(result, ", ");
     }
@@ -98,7 +98,7 @@ char* getListedIn(Show* s) {
     char* result = malloc(1024);
     strcpy(result, "[");
 
-    for (int i = 0; i < s->listed_in_count; i++) {
+    for(int i = 0; i < s->listed_in_count; i++) {
         strcat(result, s->listed_in[i]);
         if (i < s->listed_in_count - 1) strcat(result, ", ");
     }
@@ -129,7 +129,7 @@ void imprimirShow(Show* s) {
     free(listedStr);
 }
 
-// Criar show a partir de linha CSV
+//"construtor"
 Show* createShowFromCSV(char* line) {
     Show* s = malloc(sizeof(Show));
     memset(s, 0, sizeof(Show));
@@ -141,16 +141,18 @@ Show* createShowFromCSV(char* line) {
     char* token = malloc(MAX_LINE);
     int pos = 0;
 
-    for (int i = 0; line[i] != '\0'; i++) {
+    for(int i = 0; line[i] != '\0'; i++) {
         char c = line[i];
 
-        if (c == '"') {
+        if(c == '"') {
             inQuotes = !inQuotes;
-        } else if (c == ',' && !inQuotes) {
+        } 
+        else if(c == ',' && !inQuotes) {
             token[pos] = '\0';
             tokens[t++] = str_duplicate(token);
             pos = 0;
-        } else {
+        } 
+        else {
             token[pos++] = c;
         }
     }
@@ -182,15 +184,15 @@ Show* createShowFromCSV(char* line) {
     char* listParts[MAX_LISTED];
     int listCount = 0;
     char* listTok = strtok(tokens[10], ",");
-    while (listTok) {
+    while(listTok) {
         while (isspace(*listTok)) listTok++;
         listParts[listCount++] = listTok;
         listTok = strtok(NULL, ",");
     }
     setListedIn(s, listParts, listCount);
 
-    for (int i = 0; i < 12; i++) {
-        if (i != 4 && i != 10) free(tokens[i]);
+    for(int i = 0; i < 12; i++) {
+        if(i != 4 && i != 10) free(tokens[i]);
     }
 
     return s;
@@ -198,7 +200,7 @@ Show* createShowFromCSV(char* line) {
 
 //free geral
 void freeShow(Show* s) {
-    if (!s) return;
+    if(!s) return;
 
     free(s->show_id);
     free(s->type);
@@ -209,11 +211,11 @@ void freeShow(Show* s) {
     free(s->rating);
     free(s->duration);
 
-    for (int i = 0; i < s->cast_count; i++) {
+    for(int i = 0; i < s->cast_count; i++) {
         free(s->cast[i]);
     }
 
-    for (int i = 0; i < s->listed_in_count; i++) {
+    for(int i = 0; i < s->listed_in_count; i++) {
         free(s->listed_in[i]);
     }
 
@@ -222,10 +224,10 @@ void freeShow(Show* s) {
 
 
 int main() {
-    FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
-    //FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
+    //FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
+    FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
 
-    if (!csvFile) {
+    if(!csvFile) {
         perror("Erro ao abrir o arquivo");
         return 1;
     }
@@ -236,7 +238,7 @@ int main() {
     char line[MAX_LINE];
     fgets(line, MAX_LINE, csvFile); // pula cabeçalho
 
-    while (fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
+    while(fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
         line[strcspn(line, "\n")] = 0;
         shows[showCount++] = createShowFromCSV(line);
     }
@@ -248,45 +250,22 @@ int main() {
 
     input[strcspn(input, "\n")] = 0; // Remover a nova linha da entrada
 
-while (strcmp(input, "FIM") != 0) {
-    int found = 0;
-    
-    for (int i = 0; i < showCount; i++) {
-        if (strcmp(getShowId(shows[i]), input) == 0) {
-            imprimirShow(shows[i]);
-            found = 1;
-            break;
-        }
-    }
-    
-    fgets(input, MAX_INPUT, stdin);
-    input[strcspn(input, "\n")] = 0; // Limpar a entrada novamente
-}
-/*
-while (strcmp(input, "FIM") != 0) {
-    int found = 0;
-
-    for (int i = 0; i < showCount; i++) {
-        // Debug: Exibe os IDs comparados
-        printf("Comparando: %s com %s\n", getShowId(shows[i]), input);
+    while(strcmp(input, "FIM") != 0) {
+        int found = 0;
         
-        if (strcmp(getShowId(shows[i]), input) == 0) {
-            imprimirShow(shows[i]);
-            found = 1;
-            break;
+        for (int i = 0; i < showCount; i++) {
+            if (strcmp(getShowId(shows[i]), input) == 0) {
+                imprimirShow(shows[i]);
+                found = 1;
+                break;
+            }
         }
-    }
-    
-    if (!found) {
-        printf("Show não encontrado para o ID: %s\n", input);
+        
+        fgets(input, MAX_INPUT, stdin);
+        input[strcspn(input, "\n")] = 0; // Limpar a entrada novamente
     }
 
-    fgets(input, MAX_INPUT, stdin);
-    input[strcspn(input, "\n")] = 0; // Limpar a entrada novamente
-}
-*/
-
-    for (int i = 0; i < showCount; i++) {
+    for(int i = 0; i < showCount; i++) {
         freeShow(shows[i]);
     }
 
