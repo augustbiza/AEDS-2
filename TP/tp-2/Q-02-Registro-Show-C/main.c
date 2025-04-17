@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <stdbool.h>
 #define MAX_LINE 500
 #define MAX_ID 6
 #define MAX_SHOWS 1368
@@ -130,44 +130,47 @@ void imprimirShow(Show* s) {
 }
 
 //"construtor"
-Show* createShowFromCSV(char* line) {
+Show* lerShow(char* linha) {
+
     Show* s = malloc(sizeof(Show));
     memset(s, 0, sizeof(Show));
+    //Show* s = calloc(1, sizeof(Show));
 
-    char* tokens[12];
+    char* itens[12];
     int t = 0;
 
-    int inQuotes = 0;
-    char* token = malloc(MAX_LINE);
+    int emAspas = 0;
+    char* item = malloc(MAX_LINE);
     int pos = 0;
 
-    for(int i = 0; line[i] != '\0'; i++) {
-        char c = line[i];
+    for(int i = 0; linha[i] != '\0'; i++) {
+        char c = linha[i];
 
         if(c == '"') {
-            inQuotes = !inQuotes;
+            emAspas = !emAspas;
         } 
-        else if(c == ',' && !inQuotes) {
-            token[pos] = '\0';
-            tokens[t++] = copyShow(token);
+        else if(c == ',' && !emAspas) {
+            item[pos] = '\0';
+            itens[t++] = copyShow(item);
             pos = 0;
         } 
         else {
-            token[pos++] = c;
+            item[pos++] = c;
         }
     }
-    token[pos] = '\0';
-    tokens[t++] = copyShow(token);
-    free(token);
+    
+    item[pos] = '\0';
+    itens[t++] = copyShow(item);
+    free(item);
 
-    setShowId(s, tokens[0]);
-    setType(s, tokens[1]);
-    setTitle(s, tokens[2]);
-    setDirector(s, tokens[3]);
+    setShowId(s, itens[0]);
+    setType(s, itens[1]);
+    setTitle(s, itens[2]);
+    setDirector(s, itens[3]);
 
     char* castParts[MAX_CAST];
     int castCount = 0;
-    char* castTok = strtok(tokens[4], ",");
+    char* castTok = strtok(itens[4], ",");
     while (castTok) {
         while (isspace(*castTok)) castTok++;
         castParts[castCount++] = castTok;
@@ -175,15 +178,15 @@ Show* createShowFromCSV(char* line) {
     }
     setCast(s, castParts, castCount);
 
-    setCountry(s, tokens[5]);
-    setDateAdded(s, tokens[6]);
-    setReleaseYear(s, atoi(tokens[7]));
-    setRating(s, tokens[8]);
-    setDuration(s, tokens[9]);
+    setCountry(s, itens[5]);
+    setDateAdded(s, itens[6]);
+    setReleaseYear(s, atoi(itens[7]));
+    setRating(s, itens[8]);
+    setDuration(s, itens[9]);
 
     char* listParts[MAX_LISTED];
     int listCount = 0;
-    char* listTok = strtok(tokens[10], ",");
+    char* listTok = strtok(itens[10], ",");
     while(listTok) {
         while (isspace(*listTok)) listTok++;
         listParts[listCount++] = listTok;
@@ -192,7 +195,7 @@ Show* createShowFromCSV(char* line) {
     setListedIn(s, listParts, listCount);
 
     for(int i = 0; i < 12; i++) {
-        if(i != 4 && i != 10) free(tokens[i]);
+        if(i != 4 && i != 10) free(itens[i]);
     }
 
     return s;
@@ -240,7 +243,7 @@ int main() {
 
     while(fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
         line[strcspn(line, "\n")] = 0;
-        shows[showCount++] = createShowFromCSV(line);
+        shows[showCount++] = lerShow(line);
     }
 
     fclose(csvFile);

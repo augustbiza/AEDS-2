@@ -33,6 +33,7 @@ typedef struct {
 #### cast e listed_in são ponteiros para arrays, ou seja, um array 2d(Array de String em Java)
 
 # 3. main
+### Ler o arquivo e armazenar as informações
 ```c
 FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
 //ou 
@@ -54,7 +55,7 @@ if(csvFile == NULL) {
 ```c
 Show* shows[MAX_SHOWS];
 ```
-#### Cria um array de Show
+#### Cria um array de Show com 11 espaços para os 11 atributos de Show
 
 ```c
 int showCount = 0;
@@ -84,7 +85,7 @@ line[strcspn(line, "\n")] = 0;
 #### Remove o '\n' do final da linha
 
 ```c
-shows[showCount++] = createShowFromCSV(line);
+shows[showCount++] = lerShow(line);
 ```
 #### Adiciona uma struct Show ao array de Show na posição showCount (shows[showCount++])
 #### 
@@ -94,10 +95,11 @@ fclose(csvFile);
 ```
 #### Fecha o arquivo
 
+### Agora que as informações so csv estão salvas começa a questão
 ```c
 char id[MAX_ID];
 ```
-#### 
+#### Cria uma variavel para ler as entradas, que são o show_id dos Show
 
 ```c
 fgets(id, MAX_ID, stdin);
@@ -143,7 +145,77 @@ for(int i = 0; i < showCount; i++) {
 ```
 #### Leva cada ponteiro de Show para a função que da free(), ou seja, libera a memória alocada dinamicamente
 
-# 4. createShowFromCSV
+# 4. lerShow  
+Relembre o momento em que a função **lerShow** é chamada
+```c
+Show* shows[MAX_SHOWS];
+int showCount = 0;
+shows[showCount++] = lerShow(line);
+```
+#### Cria um array de struct Show
+#### Lê uma linha do csv, separa os dados e seta nos atributos de um novo "objeto" de Show
+#### Adiciona a struct Show setada ao array de Show
+#### showCount serve pra saber quantos Show foram criados e qual a posição dentro do array de Show
+
+Essa função tem o objetivo de colocar os valores do csv em campos da struct Show.  
+Em java equivale ao **construtor** que seta valores nos atributos.
+```c
+Show* lerShow(char* linha)
+```
+#### Construtor que recebe a linha do csv como parâmetro
+#### Vai separar os dados das linhas e colocar nos atributos da struct Show
+
+```c
+Show* s = calloc(1, sizeof(Show));
+// código inteiro
+return s;
+```
+#### Cria um Show s para ser retornado -> aloca memoria para UMA struct do tipo Show
+#### Após os códigos retorna essa Struct setada com os valores da linha csv
+
+```c
+char* itens[12];
+```
+#### Array de char* para separar os dados da linha csv, 
+
+```c
+int t = 0;
+```
+####
+
+```c
+int emAspas = 0;
+```
+#### Variável emAspas verifica se a string vai estar entre aspas
+#### Os campos cast e listed_in possuem vírgulas e não deve separar os enelmentros dentro das aspas
+
+```c
+char* item = malloc(MAX_LINE);
+```
+#### A string item vai guardar um atributo presente na string line
+
+```c
+int pos = 0;
+```
+####
+
+```c
+for(int i = 0; linha[i] != '\0'; i++)
+```
+#### Esse loop vai percorrer toda a linha csv char por char
+
+```c
+char c = linha[i];
+```
+#### char c é o char atual
+
+```c
+
+```
+#### 
+
+
+
 
 
 # 5. Sets
@@ -310,4 +382,4 @@ for(int i = 0; i < s->listed_in_count; i++) {
 ```c
 free(s);
 ```
-#### Libera a struct Show inteira (que foi alocada com malloc em createShowFromCSV)
+#### Libera a struct Show inteira (que foi alocada com malloc em lerShow())

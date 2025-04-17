@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <stdbool.h>
 #define MAX_LINE 500
-#define MAX_INPUT 10
+#define MAX_ID 6
 #define MAX_SHOWS 1368
 #define MAX_CAST 10
 #define MAX_LISTED 10
 
-//class Show
+// Struct Show
 typedef struct {
     char* show_id;
     char* type;
@@ -26,23 +26,22 @@ typedef struct {
     int listed_in_count;
 } Show;
 
+//copia structs
+char* copyShow(const char* atributo) {
+    if(atributo == NULL) return NULL;
 
-char* str_duplicate(const char* src) {
-    if (!src) return NULL;
+    char* copy = malloc(strlen(atributo) + 1);
+    strcpy(copy, atributo);
 
-    char* dup = malloc(strlen(src) + 1);
-    strcpy(dup, src);
-
-    return dup;
+    return copy;
 }
-
 //ordenar
 void insertionSort(char* arr[], int n) {
-    for (int i = 1; i < n; i++) {
+    for(int i = 1; i < n; i++) {
         char* aux = arr[i];
         int j = i - 1;
 
-        while (j >= 0 && strcmp(arr[j], aux) > 0) {
+        while(j >= 0 && strcmp(arr[j], aux) > 0) {
             arr[j + 1] = arr[j];
             j--;
         }
@@ -52,28 +51,28 @@ void insertionSort(char* arr[], int n) {
 }
 
 //sets
-void setShowId(Show* s, const char* id) { s->show_id = str_duplicate(id); }
-void setType(Show* s, const char* type) { s->type = str_duplicate(type); }
-void setTitle(Show* s, const char* title) { s->title = str_duplicate(title); }
-void setDirector(Show* s, const char* dir) { s->director = str_duplicate(dir); }
-void setCountry(Show* s, const char* country) { s->country = str_duplicate(country); }
-void setDateAdded(Show* s, const char* date) { s->date_added = str_duplicate(date); }
+void setShowId(Show* s, const char* id) { s->show_id = copyShow(id); }
+void setType(Show* s, const char* type) { s->type = copyShow(type); }
+void setTitle(Show* s, const char* title) { s->title = copyShow(title); }
+void setDirector(Show* s, const char* dir) { s->director = copyShow(dir); }
+void setCountry(Show* s, const char* country) { s->country = copyShow(country); }
+void setDateAdded(Show* s, const char* date) { s->date_added = copyShow(date); }
 void setReleaseYear(Show* s, int year) { s->release_year = year; }
-void setRating(Show* s, const char* rating) { s->rating = str_duplicate(rating); }
-void setDuration(Show* s, const char* duration) { s->duration = str_duplicate(duration); }
+void setRating(Show* s, const char* rating) { s->rating = copyShow(rating); }
+void setDuration(Show* s, const char* duration) { s->duration = copyShow(duration); }
 
 void setCast(Show* s, char* parts[], int count) {
     s->cast_count = count;
-    for (int i = 0; i < count; i++) {
-        s->cast[i] = str_duplicate(parts[i]);
+    for(int i = 0; i < count; i++) {
+        s->cast[i] = copyShow(parts[i]);
     }
     insertionSort(s->cast, s->cast_count);
 }
 
 void setListedIn(Show* s, char* parts[], int count) {
     s->listed_in_count = count;
-    for (int i = 0; i < count; i++) {
-        s->listed_in[i] = str_duplicate(parts[i]);
+    for(int i = 0; i < count; i++) {
+        s->listed_in[i] = copyShow(parts[i]);
     }
     insertionSort(s->listed_in, s->listed_in_count);
 }
@@ -82,12 +81,12 @@ void setListedIn(Show* s, char* parts[], int count) {
 char* getShowId(Show* s) { return s->show_id; }
 
 char* getCast(Show* s) {
-    if (s->cast_count == 0) return str_duplicate("[NaN]");
+    if(s->cast_count == 0) return copyShow("[NaN]");
 
     char* result = malloc(1024);
     strcpy(result, "[");
 
-    for (int i = 0; i < s->cast_count; i++) {
+    for(int i = 0; i < s->cast_count; i++) {
         strcat(result, s->cast[i]);
         if (i < s->cast_count - 1) strcat(result, ", ");
     }
@@ -99,7 +98,7 @@ char* getListedIn(Show* s) {
     char* result = malloc(1024);
     strcpy(result, "[");
 
-    for (int i = 0; i < s->listed_in_count; i++) {
+    for(int i = 0; i < s->listed_in_count; i++) {
         strcat(result, s->listed_in[i]);
         if (i < s->listed_in_count - 1) strcat(result, ", ");
     }
@@ -130,45 +129,71 @@ void imprimirShow(Show* s) {
     free(listedStr);
 }
 
-//construtor que recebe a linha do csv
-Show* createShowFromCSV(char* line) {
+//"construtor"
+Show* lerShow(char* linha) {
+
     Show* s = malloc(sizeof(Show));
     memset(s, 0, sizeof(Show));
+    //Show* s = calloc(1, sizeof(Show));
 
-    char* tokens[12];
-    int t = 0;
+    char* itens[12];
+    int pItens = 0;
 
-    int inQuotes = 0;
-    char* token = malloc(MAX_LINE);
-    int pos = 0;
+    char* item = malloc(MAX_LINE);
+    int pItem = 0;
 
-    for (int i = 0; line[i] != '\0'; i++) {
-        char c = line[i];
+    for(int i = 0; linha[i] != '\0'; i++) {         //percorre toda a linha
 
-        if (c == '"') {
-            inQuotes = !inQuotes;
-        } else if (c == ',' && !inQuotes) {
-            token[pos] = '\0';
-            tokens[t++] = str_duplicate(token);
-            pos = 0;
-        } else {
-            token[pos++] = c;
-        }
+        while(linha[i] != ',') {        //percorre até a primeira vírgula
+            item[pItem++] = linha[i];
+        }     
+        strcpy(itens[pItens++], item);
+
+        
     }
 
-    token[pos] = '\0';
-    tokens[t++] = str_duplicate(token);
-    free(token);
 
-    setShowId(s, tokens[0]);
-    setType(s, tokens[1]);
-    setTitle(s, tokens[2]);
-    setDirector(s, tokens[3]);
+/*
+    Show* s = malloc(sizeof(Show));
+    memset(s, 0, sizeof(Show));
+    //Show* s = calloc(1, sizeof(Show));
+
+    char* itens[12];
+    int t = 0;
+
+    int emAspas = 0;
+    char* item = malloc(MAX_LINE);
+    
+    int pos = 0;
+
+    for(int i = 0; linha[i] != '\0'; i++) {
+        char c = linha[i];
+
+        if(c == '"') {
+            emAspas = !emAspas;
+        } 
+        else if(c == ',' && !emAspas) {
+            item[pos] = '\0';
+            itens[t++] = copyShow(item);
+            pos = 0;
+        } 
+        else {
+            item[pos++] = c;
+        }
+    }
+    
+    item[pos] = '\0';
+    itens[t++] = copyShow(item);
+    free(item);
+
+    setShowId(s, itens[0]);
+    setType(s, itens[1]);
+    setTitle(s, itens[2]);
+    setDirector(s, itens[3]);
 
     char* castParts[MAX_CAST];
     int castCount = 0;
-
-    char* castTok = strtok(tokens[4], ",");
+    char* castTok = strtok(itens[4], ",");
     while (castTok) {
         while (isspace(*castTok)) castTok++;
         castParts[castCount++] = castTok;
@@ -176,33 +201,32 @@ Show* createShowFromCSV(char* line) {
     }
     setCast(s, castParts, castCount);
 
-    setCountry(s, tokens[5]);
-    setDateAdded(s, tokens[6]);
-    setReleaseYear(s, atoi(tokens[7]));
-    setRating(s, tokens[8]);
-    setDuration(s, tokens[9]);
+    setCountry(s, itens[5]);
+    setDateAdded(s, itens[6]);
+    setReleaseYear(s, atoi(itens[7]));
+    setRating(s, itens[8]);
+    setDuration(s, itens[9]);
 
     char* listParts[MAX_LISTED];
     int listCount = 0;
-    
-    char* listTok = strtok(tokens[10], ",");
-    while (listTok) {
+    char* listTok = strtok(itens[10], ",");
+    while(listTok) {
         while (isspace(*listTok)) listTok++;
         listParts[listCount++] = listTok;
         listTok = strtok(NULL, ",");
     }
     setListedIn(s, listParts, listCount);
 
-    for (int i = 0; i < 12; i++) {
-        if (i != 4 && i != 10) free(tokens[i]);
+    for(int i = 0; i < 12; i++) {
+        if(i != 4 && i != 10) free(itens[i]);
     }
-
+*/
     return s;
 }
 
 //free geral
 void freeShow(Show* s) {
-    if (!s) return;
+    if(s == NULL) return;   
 
     free(s->show_id);
     free(s->type);
@@ -213,11 +237,11 @@ void freeShow(Show* s) {
     free(s->rating);
     free(s->duration);
 
-    for (int i = 0; i < s->cast_count; i++) {
+    for(int i = 0; i < s->cast_count; i++) {
         free(s->cast[i]);
     }
 
-    for (int i = 0; i < s->listed_in_count; i++) {
+    for(int i = 0; i < s->listed_in_count; i++) {
         free(s->listed_in[i]);
     }
 
@@ -229,7 +253,7 @@ int main() {
     //FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
     FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
 
-    if (!csvFile) {
+    if(csvFile == NULL) {
         perror("Erro ao abrir o arquivo");
         return 1;
     }
@@ -238,36 +262,34 @@ int main() {
     int showCount = 0;
 
     char line[MAX_LINE];
-    fgets(line, MAX_LINE, csvFile); // pula cabeçalho
+    fgets(line, MAX_LINE, csvFile); //pula cabeçalho
 
-    while (fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
+    while(fgets(line, MAX_LINE, csvFile) && showCount < MAX_SHOWS) {
         line[strcspn(line, "\n")] = 0;
-        shows[showCount++] = createShowFromCSV(line);
+        shows[showCount++] = lerShow(line);
     }
 
     fclose(csvFile);
 
-    char input[MAX_INPUT];
-    fgets(input, MAX_INPUT, stdin);
+    char id[MAX_ID];
+    fgets(id, MAX_ID, stdin);
 
-    input[strcspn(input, "\n")] = 0; // Remover a nova linha da entrada
+    id[strcspn(id, "\n")] = 0; //remove '\n'
 
-    while (strcmp(input, "FIM") != 0) {
-        int found = 0;
+    while(strcmp(id, "FIM") != 0) {
         
-        for (int i = 0; i < showCount; i++) {
-            if (strcmp(getShowId(shows[i]), input) == 0) {
+        for(int i = 0; i < showCount; i++) {
+            if(strcmp(getShowId(shows[i]), id) == 0) {
                 imprimirShow(shows[i]);
-                found = 1;
                 break;
             }
         }
         
-        fgets(input, MAX_INPUT, stdin);
-        input[strcspn(input, "\n")] = 0; // Limpar a entrada novamente
+        fgets(id, MAX_ID, stdin);
+        id[strcspn(id, "\n")] = 0; //remove '\n'
     }
 
-    for (int i = 0; i < showCount; i++) {
+    for(int i = 0; i < showCount; i++) {
         freeShow(shows[i]);
     }
 
