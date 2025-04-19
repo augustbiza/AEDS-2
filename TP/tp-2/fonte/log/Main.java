@@ -1,8 +1,6 @@
 public static void selectionByTitle(ArrayList<Show> shows) {
         int n = shows.size();
 
-        //File Log = new File("853033_txt");
-
         long mov = 0, comp = 0;
 
         try {
