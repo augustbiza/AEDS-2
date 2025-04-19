@@ -130,30 +130,9 @@ void imprimirShow(Show* s) {
 }
 
 //"construtor"
+
 Show* lerShow(char* linha) {
 
-    Show* s = malloc(sizeof(Show));
-    memset(s, 0, sizeof(Show));
-    //Show* s = calloc(1, sizeof(Show));
-
-    char* itens[12];
-    int pItens = 0;
-
-    char* item = malloc(MAX_LINE);
-    int pItem = 0;
-
-    for(int i = 0; linha[i] != '\0'; i++) {         //percorre toda a linha
-
-        while(linha[i] != ',') {        //percorre até a primeira vírgula
-            item[pItem++] = linha[i];
-        }     
-        strcpy(itens[pItens++], item);
-
-        
-    }
-
-
-/*
     Show* s = malloc(sizeof(Show));
     memset(s, 0, sizeof(Show));
     //Show* s = calloc(1, sizeof(Show));
@@ -163,7 +142,6 @@ Show* lerShow(char* linha) {
 
     int emAspas = 0;
     char* item = malloc(MAX_LINE);
-    
     int pos = 0;
 
     for(int i = 0; linha[i] != '\0'; i++) {
@@ -220,7 +198,7 @@ Show* lerShow(char* linha) {
     for(int i = 0; i < 12; i++) {
         if(i != 4 && i != 10) free(itens[i]);
     }
-*/
+
     return s;
 }
 
