@@ -186,30 +186,64 @@ class Show {
     public void imprimir() {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
 
-    System.out.println("=> " +
-    this.getShowId() + " ## " +
-    this.getTitle() + " ## " +
-    this.getType() + " ## " +
-    (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
-    this.getCast() + " ## " +
-    (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
-    (this.getDateAdded() == null ? "March 1, 1900" : sdf.format(this.getDateAdded())) + " ## " +
-    this.getReleaseYear() + " ## " +
-    (this.getRating() == null || this.getRating().isEmpty() ? "NaN" : this.getRating()) + " ## " +
-    (this.getDuration() == null || this.getDuration().isEmpty() ? "NaN" : this.getDuration()) + " ## " +
-    this.getListedIn() + " ##"
-    );
-}
-
-
+        System.out.println("=> " +
+        this.getShowId() + " ## " +
+        this.getTitle() + " ## " +
+        this.getType() + " ## " +
+        (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
+        this.getCast() + " ## " +
+        (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
+        (this.getDateAdded() == null ? "March 1, 1900" : sdf.format(this.getDateAdded())) + " ## " +
+        this.getReleaseYear() + " ## " +
+        (this.getRating() == null || this.getRating().isEmpty() ? "NaN" : this.getRating()) + " ## " +
+        (this.getDuration() == null || this.getDuration().isEmpty() ? "NaN" : this.getDuration()) + " ## " +
+        this.getListedIn() + " ##"
+        );
+    }
 }
 
 public class Main {
 
+    public static void selectionByTitle(ArrayList<Show> shows) {
+        int n = shows.size();
+
+        //File Log = new File("853033_txt");
+
+        long mov = 0, comp = 0;
+
+        try {
+
+            FileWriter Log = new FileWriter("853033.txt");
+
+            Long inicio = System.nanoTime();
+
+            for(int i = 0; i < n-1; i++) {
+                int menor = i;
+
+                for(int j = i+1; j < n; j++) {
+                    comp++;
+
+                    if(shows.get(menor).getTitle().compareToIgnoreCase(shows.get(j).getTitle()) > 0) menor = j;
+                }
+
+                Show aux = shows.get(i);
+                shows.set(i, shows.get(menor));
+                shows.set(menor, aux);
+                mov += 3;
+            }
+
+            long fim = System.nanoTime();
+			long tempoTotal = fim - inicio;
+
+            Log.write("853033" + "\t" + comp + "\t" + mov + "\t" + tempoTotal);
+
+        } catch (Exception e) { }
+    }
+
     public static void main(String[] args) {
 
-        //String csvFile = "/tmp/disneyplus.csv";
-        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        String csvFile = "/tmp/disneyplus.csv";
+        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
@@ -223,6 +257,7 @@ public class Main {
 
         scan.close();
         } catch(Exception e) { }
+
 
         Scanner scan = new Scanner(System.in);
 
@@ -241,11 +276,14 @@ public class Main {
             input = scan.nextLine();
         }
 
+        int tamBase = base.size();
+
+        selectionByTitle(base);
+
         //mostrar
-        for(Show show : base) {
-            show.imprimir();
+        for(Show s : base) {
+            s.imprimir();
         }
 
-        scan.close();
     }
 }

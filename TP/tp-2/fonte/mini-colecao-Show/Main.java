@@ -214,14 +214,16 @@ public class Main {
         ArrayList<Show> shows = new ArrayList<Show>();
 
         try {
-        Scanner scan = new Scanner(new File(csvFile));
-        scan.nextLine();    //pular cabeçalho
 
-        while(scan.hasNextLine()) {
-            shows.add(new Show(scan.nextLine()));
-        }
+            Scanner scan = new Scanner(new File(csvFile));
+            scan.nextLine();    //pular cabeçalho
 
-        scan.close();
+            while(scan.hasNextLine()) {
+                shows.add(new Show(scan.nextLine()));
+            }
+
+            scan.close();
+            
         } catch(Exception e) { }
 
         Scanner scan = new Scanner(System.in);

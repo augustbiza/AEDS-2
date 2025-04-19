@@ -249,25 +249,6 @@ int main() {
 
     fclose(csvFile);
 
-/*
-    char id[MAX_ID];
-    fgets(id, MAX_ID, stdin);
-
-    id[strcspn(id, "\n")] = 0; //remove '\n'
-    while(strcmp(id, "FIM") != 0) {
-    
-    for(int i = 0; i < showCount; i++) {
-        if(strcmp(getShowId(shows[i]), id) == 0) {
-            imprimirShow(shows[i]);
-            break;
-        }
-    }
-        
-        fgets(id, MAX_ID, stdin);
-        id[strcspn(id, "\n")] = 0; //remove '\n'
-    }
-*/
-
     for(int i = 0; i < showCount; i++) {
         freeShow(shows[i]);
     }
