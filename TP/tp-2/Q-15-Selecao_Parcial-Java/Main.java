@@ -1,4 +1,4 @@
-//
+//TP02Q15 - Seleção Parcial em Java
 import java.util.*;
 import java.io.*;
 import java.time.*;
@@ -204,7 +204,7 @@ class Show {
 
 public class Main {
 
-    public static void insertionByTypeAndTitle(ArrayList<Show> shows) {
+    public static void selectionPartialByTitle(ArrayList<Show> shows, int k) {
         int n = shows.size();
 
         long mov = 0, comp = 0;
@@ -215,42 +215,19 @@ public class Main {
 
             Long inicio = System.nanoTime();
 
-            for(int i = 1; i < n; i++) {
-                Show aux = shows.get(i);
+            for(int i = 0; i < k; i++) {
+                int menor = i;
 
-                int j = i-1;
-
-
-                while(j >= 0) {
-
-                    boolean jMaior = false;
-                    boolean typeIgual = false;
-
-                    int cmpType = shows.get(j).getType().compareToIgnoreCase(aux.getType());
+                for(int j = i+1; j < n; j++) {
                     comp++;
-                    if(cmpType > 0) {
-                    jMaior = true;
-                    }
-                    else if(cmpType == 0) {
-                        int cmpTitle = shows.get(j).getTitle().compareToIgnoreCase(aux.getTitle());
-                        comp++;
-                    
-                        if(cmpTitle > 0) {
-                            typeIgual = true;
-                        }
-                    }   
 
-                    if(jMaior || typeIgual) {                    
-                        shows.set(j+1, shows.get(j));
-                        mov++;
-                        j--;
-                    }
-                    else break;
-                    
+                    if(shows.get(menor).getTitle().compareToIgnoreCase(shows.get(j).getTitle()) > 0) menor = j;
                 }
 
-                shows.set(j+1, aux);
-                mov++;
+                Show aux = shows.get(i);
+                shows.set(i, shows.get(menor));
+                shows.set(menor, aux);
+                mov += 3;
             }
 
             long fim = System.nanoTime();
@@ -295,18 +272,17 @@ public class Main {
                 if(show.getShowId().equals(input)) base.add(show);
             }
 
-
             input = scan.nextLine();
         }
 
         int tamBase = base.size();
 
-        insertionByTypeAndTitle(base);
+        selectionPartialByTitle(base, 10);
 
-        //mostrar
-        for(Show s : base) {
+        //mostrar k(10) primeiros
+        for(int i = 0; i < 10; i++) {
+            Show s = base.get(i);
             s.imprimir();
         }
-
     }
 }
