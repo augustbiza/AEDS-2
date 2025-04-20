@@ -207,13 +207,11 @@ public class Main {
     public static void selectionByTitle(ArrayList<Show> shows) {
         int n = shows.size();
 
-        //File Log = new File("853033_txt");
-
         long mov = 0, comp = 0;
 
         try {
 
-            FileWriter Log = new FileWriter("853033.txt");
+            FileWriter Log = new FileWriter("853033_selecao.txt");
 
             Long inicio = System.nanoTime();
 

@@ -211,7 +211,7 @@ public class Main {
 
         try {
 
-            FileWriter Log = new FileWriter("853033.txt");
+            FileWriter Log = new FileWriter("853033_insercao.txt");
 
             Long inicio = System.nanoTime();
 
@@ -265,8 +265,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //String csvFile = "/tmp/disneyplus.csv";
-        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        String csvFile = "/tmp/disneyplus.csv";
+        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
