@@ -167,7 +167,8 @@ Show* lerShow(char* linha) {
     setShowId(s, itens[0]);
     setType(s, itens[1]);
     setTitle(s, itens[2]);
-    setDirector(s, itens[3]);
+    if(itens[3] == NULL) setDirector(s, "NaN");
+    else setDirector(s, itens[3]);
 
     char* castParts[MAX_CAST];
     int castCount = 0;
@@ -275,12 +276,6 @@ int main() {
     for(int i = 0; i < baseCount; i++) {
         imprimirShow(base[i]);
     }
-
-/*
-for(int i = 0; i < showCount; i++) {
-    freeShow(shows[i]);
-}
-*/
 
     return 0;
 }

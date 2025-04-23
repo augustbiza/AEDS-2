@@ -1,9 +1,9 @@
-//TP02Q02 - Registro em C
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <time.h>
 #define MAX_LINE 500
 #define MAX_ID 6
 #define MAX_SHOWS 1368
@@ -167,7 +167,8 @@ Show* lerShow(char* linha) {
     setShowId(s, itens[0]);
     setType(s, itens[1]);
     setTitle(s, itens[2]);
-    setDirector(s, itens[3]);
+    if(itens[3] == NULL) setDirector(s, "NaN");
+    else setDirector(s, itens[3]);
 
     char* castParts[MAX_CAST];
     int castCount = 0;
@@ -236,7 +237,7 @@ int main() {
         return 1;
     }
 
-    Show* shows[MAX_SHOWS];
+    Show* shows[MAX_SHOWS];     //Array de Show Principal
     int showCount = 0;
 
     char line[MAX_LINE];
@@ -249,26 +250,31 @@ int main() {
 
     fclose(csvFile);
 
-    char id[MAX_ID];
-    fgets(id, MAX_ID, stdin);
 
-    id[strcspn(id, "\n")] = 0; //remove '\n'
+    Show* base[300];        //Array manipulável
+    int baseCount = 0;
+
+    char id[6];
+
+    fgets(id, 6, stdin);
+    id[strcspn(id, "\n")] = 0;
 
     while(strcmp(id, "FIM") != 0) {
-        
+
         for(int i = 0; i < showCount; i++) {
-            if(strcmp(getShowId(shows[i]), id) == 0) {
-                imprimirShow(shows[i]);
+            if(shows[i] != NULL && strcmp(getShowId(shows[i]), id) == 0) {
+
+                base[baseCount++] = shows[i];
                 break;
             }
         }
-        
-        fgets(id, MAX_ID, stdin);
-        id[strcspn(id, "\n")] = 0; //remove '\n'
+
+        fgets(id, 6, stdin);
+        id[strcspn(id, "\n")] = 0;
     }
 
-    for(int i = 0; i < showCount; i++) {
-        freeShow(shows[i]);
+    for(int i = 0; i < baseCount; i++) {
+        imprimirShow(base[i]);
     }
 
     return 0;
