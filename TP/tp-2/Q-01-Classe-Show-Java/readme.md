@@ -193,9 +193,9 @@ public Show(String linha) throws ParseException {
     String newTitle = item[2].trim().replace("\"", "");     //removendo aspas do title
     setTitle(newTitle);
 
-    // Director (pode ser vazio)
+    //director (pode ser vazio)
     String newDirector = item[3].trim().replace("\"", "");
-    setDirector(newDirector.isEmpty() ? null : newDirector);    
+    setDirector(newDirector.isEmpty() ? "NaN" : newDirector);     
 
     // Cast (pode ser vazio)
     ArrayList<String> castList = new ArrayList<>();

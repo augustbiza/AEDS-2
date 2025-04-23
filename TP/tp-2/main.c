@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <time.h>
 #define MAX_LINE 500
 #define MAX_ID 6
 #define MAX_SHOWS 1368
@@ -130,7 +131,6 @@ void imprimirShow(Show* s) {
 }
 
 //"construtor"
-
 Show* lerShow(char* linha) {
 
     Show* s = malloc(sizeof(Show));
@@ -268,23 +268,19 @@ int main() {
             }
         }
 
-
         fgets(id, 6, stdin);
         id[strcspn(id, "\n")] = 0;
     }
-/*
-for(int i = 0; i < baseCount; i++) {
-    imprimirShow(base[i]);
-}
-*/
-
-    for(int i = 0; i < showCount; i++) {
-        freeShow(shows[i]);
-    }
 
     for(int i = 0; i < baseCount; i++) {
-        freeShow(base[i]);
+        imprimirShow(base[i]);
     }
+
+/*
+for(int i = 0; i < showCount; i++) {
+    freeShow(shows[i]);
+}
+*/
 
     return 0;
 }

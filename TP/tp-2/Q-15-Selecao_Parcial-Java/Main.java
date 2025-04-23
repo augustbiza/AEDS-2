@@ -62,7 +62,7 @@ class Show {
 
         //director (pode ser vazio)
         String newDirector = item[3].trim().replace("\"", "");
-        setDirector(newDirector.isEmpty() ? null : newDirector);    
+        setDirector(newDirector.isEmpty() ? "NaN" : newDirector);    
 
         //cast (pode ser vazio)
         ArrayList<String> castList = new ArrayList<>();
@@ -242,8 +242,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String csvFile = "/tmp/disneyplus.csv";
-        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        //String csvFile = "/tmp/disneyplus.csv";
+        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 

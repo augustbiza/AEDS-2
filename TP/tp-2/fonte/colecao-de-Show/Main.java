@@ -62,7 +62,7 @@ class Show {
 
         //director (pode ser vazio)
         String newDirector = item[3].trim().replace("\"", "");
-        setDirector(newDirector.isEmpty() ? null : newDirector);    
+        setDirector(newDirector.isEmpty() ? "NaN" : newDirector);     
 
         //cast (pode ser vazio)
         ArrayList<String> castList = new ArrayList<>();
