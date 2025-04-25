@@ -226,11 +226,58 @@ void freeShow(Show* s) {
 
     free(s);
 }
+////////////////////////////////
+
+void swap(Show**a, Show** b) {
+    Show* aux = *a;
+    *a = *b;
+    *b = aux;
+}
+
+void toLowerTitle(const char* title2, char* str) {
+    while (*title2) {
+        *str = tolower(*title2);
+        title2++;
+        str++;
+    }
+    *str = '\0';
+}
+
+int buscaPosMenor(Show* shows[], int n, int i, int* comp) {
+    
+    if(i == n-1) return i;  //caso base: se o tamanho do array for 1 o elemento já é o menor
+    
+    int menorTitle = buscaPosMenor(shows, n, i+1, comp);   //chama recursivamente até achar o último elemento
+    
+    char auxTitle[300], titleMenor[300];
+    toLowerTitle(shows[i]->title, auxTitle);
+    toLowerTitle(shows[menorTitle]->title, titleMenor);
+
+    *comp += 1;
+    if(strcmp(auxTitle, titleMenor) < 0) return i;
+    else return menorTitle;
+}
+
+void selectionRec(Show* shows[], int n, int i, int* comp, int* mov) {
+    
+    if (i == n - 1) return;
+
+    int menorTitle = buscaPosMenor(shows, n, i, comp);
+
+    if(menorTitle != i) {
+        swap(&shows[i], &shows[menorTitle]);
+        *mov += 3;
+    }
+
+    selectionRec(shows, n, i + 1, comp, mov);
+}
+
+///////////////////////
 
 
 int main() {
-    //FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
-    FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
+    FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
+    //FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
 
     if(csvFile == NULL) {
         perror("Erro ao abrir o arquivo");
@@ -273,9 +320,25 @@ int main() {
         id[strcspn(id, "\n")] = 0;
     }
 
+
+    int comp = 0, mov = 0;
+
+    clock_t inicio = clock();
+
+    selectionRec(base, baseCount, 0, &comp, &mov);
+
+    clock_t fim = clock();
+
+    double tempo = (double)(fim-inicio)/CLOCKS_PER_SEC;
+
+    FILE *Log = fopen("./853033_selecaoRecursiva.txt","w");
+    fprintf(Log,"853033\t%d\t%d\t%f", comp, mov, tempo);
+	fclose(Log);
+
     for(int i = 0; i < baseCount; i++) {
         imprimirShow(base[i]);
     }
+
 
     return 0;
 }
