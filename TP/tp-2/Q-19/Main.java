@@ -107,18 +107,72 @@ class Main {
         System.out.println("Comparacoes: " + sort.getComp() + "\nMovimentacoes: " + sort.getMov() + "\n");
     }
 
-    
+    //100
+    public static void cem(Sort sort, Random rand) {
+
+        int[] array = new int[100];
+
+        preencherArray(array, 100, rand);
+
+        sort.selectionSort(array, 100);
+            //mostrar(array, 100);
+            System.out.println("Selection Sort");
+            dados(sort);
+            sort.zeraDados();
+    }
+
+    //1000
+    public static void mil(Sort sort, Random rand) {
+
+        int[] array = new int[1000];
+
+        preencherArray(array, 1000, rand);
+
+        sort.selectionSort(array, 1000);
+            //mostrar(array, 1000);
+            System.out.println("Selection Sort");
+            dados(sort);
+            sort.zeraDados();
+    }
+
+    //10000
+    public static void dez_mil(Sort sort, Random rand) {
+
+        int[] array = new int[10000];
+
+        preencherArray(array, 10000, rand);
+
+        sort.selectionSort(array, 10000);
+            //mostrar(array, 10000);
+            System.out.println("Selection Sort");
+            dados(sort);
+            sort.zeraDados();
+    }
+
+    //100000
+    public static void dez_mil(Sort sort, Random rand) {
+
+        int[] array = new int[100000];
+
+        preencherArray(array, 100000, rand);
+
+        sort.selectionSort(array, 100000);
+            //mostrar(array, 100000);
+            System.out.println("Selection Sort");
+            dados(sort);
+            sort.zeraDados();
+    }
 
     public static void main(String[] args) {
         
         Random rand = new Random();
-
+/*
         int[] array = new int[20];
         int n = array.length;
 
         preencherArray(array, n, rand);
         //mostrar(array, n);
-
+*/
 
         Sort sort = new Sort();
 /*
@@ -140,5 +194,11 @@ class Main {
             dados(sort);
             sort.zeraDados();
 */
+
+
+            cem(sort, rand);
+            mil(sort, rand);
+            dez_mil(sort, rand);
+            cem_mil(sort, rand);
     }
 }
