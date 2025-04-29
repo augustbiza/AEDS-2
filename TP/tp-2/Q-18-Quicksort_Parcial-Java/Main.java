@@ -1,4 +1,4 @@
-//
+//TP02Q18 - Quicksort Parcial em Java
 import java.util.*;
 import java.io.*;
 import java.time.*;
@@ -62,7 +62,7 @@ class Show {
 
         //director (pode ser vazio)
         String newDirector = item[3].trim().replace("\"", "");
-        setDirector(newDirector.isEmpty() ? "NaN" : newDirector);    
+        setDirector(newDirector.isEmpty() ? "NaN" : newDirector);     
 
         //cast (pode ser vazio)
         ArrayList<String> castList = new ArrayList<>();
@@ -79,7 +79,7 @@ class Show {
 
         //country (pode ser vazio)
         String newCountry = item[5].replaceAll("\"", "").trim();
-        setCountry(newCountry.isEmpty() ? "NaN" : newCountry);
+        setCountry(newCountry.isEmpty() ? null : newCountry);
 
         // Date added (pode ser vazia)
         String newDate = item[6].replaceAll("\"", "").trim();
@@ -88,11 +88,7 @@ class Show {
         else setDateAdded(sdf.parse("March 1, 1900"));
 
         setReleaseYear(Integer.parseInt(item[7].trim()));
-
-        //rating (pode ser vazio)
         setRating(item[8].trim());
-
-        //duration (pode ser vazio)
         setDuration(item[9].trim());
 
         // Listed_in
@@ -187,64 +183,122 @@ class Show {
     }
 
     //print
-   public void imprimir() {
-    SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
+    public void imprimir() {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
 
-    System.out.println("=> " +
-    this.getShowId() + " ## " +
-    this.getTitle() + " ## " +
-    this.getType() + " ## " +
-    (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
-    this.getCast() + " ## " +
-    (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
-    (this.getDateAdded() == null ? "March 1, 1900" : sdf.format(this.getDateAdded())) + " ## " +
-    this.getReleaseYear() + " ## " +
-    (this.getRating() == null || this.getRating().isEmpty() ? "NaN" : this.getRating()) + " ## " +
-    (this.getDuration() == null || this.getDuration().isEmpty() ? "NaN" : this.getDuration()) + " ## " +
-    this.getListedIn() + " ##"
-    );
-}
-
-
+        System.out.println("=> " +
+        this.getShowId() + " ## " +
+        this.getTitle() + " ## " +
+        this.getType() + " ## " +
+        (this.getDirector() == null || this.getDirector().isEmpty() ? "NaN" : this.getDirector()) + " ## " +
+        this.getCast() + " ## " +
+        (this.getCountry() == null || this.getCountry().isEmpty() ? "NaN" : this.getCountry()) + " ## " +
+        (this.getDateAdded() == null ? "March 1, 1900" : sdf.format(this.getDateAdded())) + " ## " +
+        this.getReleaseYear() + " ## " +
+        (this.getRating() == null || this.getRating().isEmpty() ? "NaN" : this.getRating()) + " ## " +
+        (this.getDuration() == null || this.getDuration().isEmpty() ? "NaN" : this.getDuration()) + " ## " +
+        this.getListedIn() + " ##"
+        );
+    }
 }
 
 public class Main {
 
+    public static int compareShows(Show a, Show b) {
+
+        int cmp = a.getDateAdded().compareTo(b.getDateAdded());
+
+        if(cmp != 0) return cmp;
+
+        return a.getTitle().compareToIgnoreCase(b.getTitle());
+    }
+
+
+    public static void quicksortParcial(ArrayList<Show> shows, int inicio, int fim, int k) {
+        
+        if(inicio >= fim) return;
+
+        Show pivo = shows.get((inicio + fim) / 2);
+        int i = inicio, j = fim;
+
+        while(i <= j) {
+            while(compareShows(shows.get(i), pivo) < 0) i++;
+            while(compareShows(shows.get(j), pivo) > 0) j--;
+
+            if(i <= j) {
+                Show temp = shows.get(i);
+                shows.set(i, shows.get(j));
+                shows.set(j, temp);
+                i++;
+                j--;
+            }
+        }
+
+        if (inicio < j) quicksortParcial(shows, inicio, j, k);
+        if (i < k && i < fim) quicksortParcial(shows, i, fim, k);
+    }
+
     public static void main(String[] args) {
 
-        //String csvFile = "/tmp/disneyplus.csv";
-        String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
+        String csvFile = "/tmp/disneyplus.csv";
+        //String csvFile = "/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv";
 
         ArrayList<Show> shows = new ArrayList<Show>();
 
         try {
-        Scanner scan = new Scanner(new File(csvFile));
-        scan.nextLine();    //pular cabeçalho
+            Scanner scan = new Scanner(new File(csvFile));
+            scan.nextLine();    //pular cabeçalho
 
-        while(scan.hasNextLine()) {
-            shows.add(new Show(scan.nextLine()));
-        }
+            while(scan.hasNextLine()) {
+                shows.add(new Show(scan.nextLine()));
+            }
 
-        scan.close();
+            scan.close();
         } catch(Exception e) { }
+
 
         Scanner scan = new Scanner(System.in);
 
         String input = scan.nextLine();
 
+        ArrayList<Show> base = new ArrayList<Show>();   //novo arraylist só com os show_id de entrada
+                                                        //manipular somente esse arraylist
         while(!input.equals("FIM")) {
 
             for(Show show : shows) {
-                if(show.getShowId().equals(input)) {
-                    show.imprimir();
-                    break;
-                }
+
+                if(show.getShowId().equals(input)) base.add(show);
             }
 
             input = scan.nextLine();
         }
 
-        scan.close();
+        int tamBase = base.size();
+        int k = 10;
+
+        try {
+
+            FileWriter Log = new FileWriter("853033_quicksortParcial.txt");
+
+            Long inicio = System.nanoTime();
+
+            quicksortParcial(base, 0, tamBase-1, k);
+
+            long fim = System.nanoTime();
+			long tempoTotal = fim - inicio;
+
+            Log.write("853033" + "\t" + tempoTotal);
+            //Log.write("853033" + "\t" + comp + "\t" + mov + "\t" + tempoTotal);
+
+            Log.close();
+
+        } catch (Exception e) { }
+
+        //mostrar
+        for(int i = 0; i < k; i++) {
+            Show s = base.get(i);
+            s.imprimir();
+        }
 
     }
 }
