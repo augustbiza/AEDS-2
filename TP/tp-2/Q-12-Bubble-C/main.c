@@ -1,4 +1,4 @@
-//TP02Q08 - Shellsort em C
+//TP02Q12 - Bolha em C
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -244,51 +244,71 @@ void toLowerTitle(const char* title2, char* str) {
     *str = '\0';
 }
 
+int mesInt(const char* mes) {
+
+    if (strcmp(mes, "January") == 0) return 1;
+    if (strcmp(mes, "February") == 0) return 2;
+    if (strcmp(mes, "March") == 0) return 3;
+    if (strcmp(mes, "April") == 0) return 4;
+    if (strcmp(mes, "May") == 0) return 5;
+    if (strcmp(mes, "June") == 0) return 6;
+    if (strcmp(mes, "July") == 0) return 7;
+    if (strcmp(mes, "August") == 0) return 8;
+    if (strcmp(mes, "September") == 0) return 9;
+    if (strcmp(mes, "October") == 0) return 10;
+    if (strcmp(mes, "November") == 0) return 11;
+    if (strcmp(mes, "December") == 0) return 12;
+    return 0;
+
+}
+
+
+int parseDate(const char* date) {
+    char mes[20];
+    int dia, ano;
+    sscanf(date, "%s %d, %d", mes, &dia, &ano);
+    int m = mesInt(mes);
+    return ano * 10000 + m * 100 + dia;
+}
+
+
 int compareShow(Show* a, Show* b, int* comp) {
 
-    char lowerTypeA[100], lowerTypeB[100];
-    char lowerTitleA[300], lowerTitleB[300];
-    
-    toLowerTitle(a->type, lowerTypeA);
-    toLowerTitle(b->type, lowerTypeB);
-    
+    int dateA = parseDate(a->date_added);
+    int dateB = parseDate(b->date_added);
     (*comp)++;
-    int typeComp = strcmp(lowerTypeA, lowerTypeB);
-    if(typeComp != 0) return typeComp;
-    
-    toLowerTitle(a->title, lowerTitleA);
-    toLowerTitle(b->title, lowerTitleB);
-    
+
+    if(dateA != dateB) return dateA - dateB;
+
+    char lowerA[300], lowerB[300];
+    toLowerTitle(a->title, lowerA);
+    toLowerTitle(b->title, lowerB);
     (*comp)++;
-    return strcmp(lowerTitleA, lowerTitleB);
+
+    return strcmp(lowerA, lowerB);
 }
+
+void bubblesort(Show* shows[], int n, int* comp, int* mov) {
     
-void shellsort(Show* shows[], int n, int* comp, int* mov) {
+    for(int i = 0; i < n-1; i++) {
 
-    for(int h = n/2; h > 0; h /= 2) {
+        for(int j = 0; j < n-i-1; j++) {
 
-        for(int i = h; i < n; i++) {
-
-            Show* temp = shows[i];
-            int j = i;
-            
-            while(j >= h && compareShow(shows[j-h], temp, comp) > 0) {
-                shows[j] = shows[j-h];
-                j -= h;
-                (*mov) += 1;
+            if(compareShow(shows[j], shows[j+1], comp) > 0) {
+                swap(&shows[j], &shows[j+1]);
+                (*mov) += 3;
             }
-            
-            shows[j] = temp;
-            (*mov) += 1;
         }
     }
 }
+    
+
 ///////////////////////
 
 
 int main() {
-    //FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
-    FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
+    FILE* csvFile = fopen("/tmp/disneyplus.csv", "r");
+    //FILE* csvFile = fopen("/home/augustobiza/CCPUC/AED-2/TP/tp-2/tmp/disneyplus.csv", "r");
 
     if(csvFile == NULL) {
         perror("Erro ao abrir o arquivo");
@@ -336,13 +356,13 @@ int main() {
 
     clock_t inicio = clock();
 
-    shellsort(base, baseCount, &comp, &mov);
+    bubblesort(base, baseCount, &comp, &mov);
 
     clock_t fim = clock();
 
     double tempo = (double)(fim-inicio)/CLOCKS_PER_SEC;
 
-    FILE *Log = fopen("./853033_shellsort.txt","w");
+    FILE *Log = fopen("./853033_bolha.txt","w");
     fprintf(Log,"853033\t%d\t%d\t%f", comp, mov, tempo);
 	fclose(Log);
 
