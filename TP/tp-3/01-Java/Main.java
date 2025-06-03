@@ -53,7 +53,7 @@ class Lista {
         return array[--n];
     }
 
-    public void mostrar() {
+    public void mostrarLista() {
         for(int i = 0; i < n; i++) {
             array[i].imprimir();
         }
@@ -361,7 +361,7 @@ public class Main {
             }
         }
 
-        disney.mostrar();     
+        disney.mostrarLista();     
 
         scan.close();
     }
