@@ -2,14 +2,6 @@ import java.util.Scanner;
 
 class q01 {
 
-	public static boolean verificaFim(String str) {
-		boolean ehFim = false;
-
-		if(str.charAt(0) == 'F' && str.charAt(1) == 'I' && str.charAt(2) == 'M') ehFim = true; 
-		
-		return ehFim;
-	}
-
 	public static int contarMaiusculas(String str) {
 		int qt = 0;
 
@@ -27,11 +19,11 @@ class q01 {
 		do {
 		
 			str = scan.nextLine();
-			if(!verificaFim(str)) {
+			if(!str.equals("FIM")) {
 				System.out.println(contarMaiusculas(str));
 			}
 
-		}while(!verificaFim(str));		
+		}while(!str.equals("FIM"));		
 
 		scan.close();		
 	}
