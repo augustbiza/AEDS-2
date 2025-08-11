@@ -1,5 +1,5 @@
 # Quiz 1 - Conceitos Básicos
-Este Quiz aborda conceitos básicos de algoritmos, potência e logaritmo, piso e teto, e funções matemáticas.
+Assunto: conceitos básicos de algoritmos, potência e logaritmo, piso e teto, e funções matemáticas.
 ### Pergunta 1
 I) O entendimento profundo de algoritmos é mais crítico do que o conhecimento de linguagens de programação específicas.  
 II) Os princípios e lógicas subjacentes aos algorimos são aplicáveis a uma ampla gama de linguagens de programação e problemas computacionais.
