@@ -53,7 +53,6 @@ int main(void) {
 
                 if(!ehFim(input)) {
                         charEspecial(input, tam);
-                        //printf("%s - ", input);
                         if(ehPalindromo(input, tam)) printf("SIM\n");
                         else printf("NAO\n");
                 }
