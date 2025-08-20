@@ -57,10 +57,19 @@ public Pessoa(String nome,int idade) {
 }
 
 //Class Main
-Pessoa p2 = new Pesso("Fulano", 21);
+Pessoa p2 = new Pessoa("Fulano", 21);
 ```
 ##### O construtor nesse caso (com parâmetros) inicializa os atributos de p2 com "Fulano" e 21
 ```java
 Pessoa p4 = null;
 ```
 ##### p3 é um ponteiro do tipo Pessoa que guarda null
+```java
+Hora h1 = new Hora(10,10,10);
+Hora h2 = new Hora(10,10,10);
+
+Hora h3 = new Hora(7,50,10);
+Hora h4 = h3;
+```
+#### h1 != h2 (h1 guarda o endereço de um objeto 'x' e h2 guarda de y, logo, apesar de x e y terem os mesmos valores nos atributos eles são objetos diferentes)
+#### h3 == h4 (ambos guardam o endereço do mesmo objeto Hora)
